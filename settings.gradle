@@ -1,0 +1,5 @@
+include ':usersneak-api'
+include ':usersneak-internal'
+include ':usersneak'
+include ':app'
+rootProject.name = "UserSneak Demo"
