@@ -37,11 +37,9 @@ public final class MainFragment extends Fragment {
         new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
     EventNameAdapter adapter =
         new EventNameAdapter(
-            event -> {
-              // TODO(allen): pass param?
-              Navigation.findNavController(root)
-                  .navigate(R.id.action_mainFragment_to_detailFragment);
-            });
+            event ->
+                Navigation.findNavController(root)
+                    .navigate(MainFragmentDirections.actionMainFragmentToDetailFragment(event)));
     recyclerView.setAdapter(adapter);
 
     MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);

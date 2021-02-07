@@ -28,7 +28,7 @@ public final class DetailFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View root, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(root, savedInstanceState);
-    String eventName = "foo";
+    String eventName = DetailFragmentArgs.fromBundle(requireArguments()).getEventName();
 
     Toolbar toolbar = root.findViewById(R.id.toolbar);
     toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(root).popBackStack());

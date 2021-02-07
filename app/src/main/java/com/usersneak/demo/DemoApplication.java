@@ -1,6 +1,7 @@
 package com.usersneak.demo;
 
 import android.app.Application;
+import android.content.Context;
 import com.usersneak.UserSneak;
 import java.util.concurrent.TimeUnit;
 
@@ -10,9 +11,17 @@ public final class DemoApplication extends Application {
   private static final String SHEETS_API_KEY = "sheets_api_key";
   private static final String SHEET_ID = "sheet_id";
 
+  private static DemoApplication application;
+
+  public static Context getContext() {
+    return application;
+  }
+
   @Override
   public void onCreate() {
     super.onCreate();
+    application = this;
+
     // Sign up at usersneak.com, navigate to settings to find your API key.
     UserSneak.INSTANCE
         .configureUserSneakApiKey(this, USER_SNEAK_API_KEY)
