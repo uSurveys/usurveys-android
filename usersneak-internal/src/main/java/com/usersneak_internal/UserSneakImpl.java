@@ -1,16 +1,13 @@
 package com.usersneak_internal;
 
 import android.content.Context;
-
-import com.usersneak_api.SurveyResultsHandler;
-import com.usersneak_api.UserSneakApi;
-
-import java.util.ArrayList;
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
+import com.usersneak_api.SurveyResultsHandler;
+import com.usersneak_api.UserSneakApi;
+import java.util.ArrayList;
 
 public final class UserSneakImpl implements UserSneakApi {
 
@@ -35,9 +32,7 @@ public final class UserSneakImpl implements UserSneakApi {
   }
 
   @Override
-  public void preTrack(String event) {
-
-  }
+  public void preTrack(String event) {}
 
   @Override
   public void track(String event, StatusCallback statusCallback) {
@@ -45,19 +40,17 @@ public final class UserSneakImpl implements UserSneakApi {
   }
 
   @Override
-  public void showSurvey(FragmentActivity activity, ActivityResultCallback<ActivityResult> resultCallback) {
+  public void showSurvey(
+      FragmentActivity activity, ActivityResultCallback<ActivityResult> resultCallback) {
     resultCallback.onActivityResult(new ActivityResult(AppCompatActivity.RESULT_CANCELED, null));
   }
 
   @Override
-  public void logout(boolean clearResurveyWindow) {
-
-  }
+  public void logout(boolean clearResurveyWindow) {}
 
   @Override
-  public void showTestSurvey(FragmentActivity activity, ActivityResultCallback<ActivityResult> resultCallback) {
-
-  }
+  public void showTestSurvey(
+      FragmentActivity activity, ActivityResultCallback<ActivityResult> resultCallback) {}
 
   @Override
   public void getAllEvents(AllEventsCallback callback) {

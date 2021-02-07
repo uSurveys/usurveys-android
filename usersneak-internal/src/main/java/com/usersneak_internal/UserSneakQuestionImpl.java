@@ -1,11 +1,9 @@
 package com.usersneak_internal;
 
+import androidx.annotation.Nullable;
 import com.usersneak_api.UserSneakQuestion;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.Nullable;
 
 public final class UserSneakQuestionImpl extends UserSneakQuestion {
 
@@ -16,11 +14,7 @@ public final class UserSneakQuestionImpl extends UserSneakQuestion {
   public final Type type;
 
   UserSneakQuestionImpl(
-      String id,
-      String text,
-      @Nullable List<String> answers,
-      String answer,
-      Type type) {
+      String id, String text, @Nullable List<String> answers, String answer, Type type) {
     this.id = id;
     this.text = text;
     this.answers = answers;

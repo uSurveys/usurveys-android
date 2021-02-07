@@ -1,8 +1,7 @@
 package com.usersneak.demo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 
 public final class MainActivity extends AppCompatActivity {
 

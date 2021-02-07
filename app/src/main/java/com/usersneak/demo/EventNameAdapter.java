@@ -4,14 +4,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-public final class EventNameAdapter extends RecyclerView.Adapter<EventNameAdapter.EventNameViewHolder> {
+public final class EventNameAdapter
+    extends RecyclerView.Adapter<EventNameAdapter.EventNameViewHolder> {
 
   private final EventClickListener listener;
   private List<String> events = new ArrayList<>();

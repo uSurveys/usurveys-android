@@ -1,9 +1,7 @@
 package com.usersneak.demo;
 
 import android.app.Application;
-
 import com.usersneak.UserSneak;
-
 import java.util.concurrent.TimeUnit;
 
 public final class DemoApplication extends Application {
@@ -16,7 +14,8 @@ public final class DemoApplication extends Application {
   public void onCreate() {
     super.onCreate();
     // Sign up at usersneak.com, navigate to settings to find your API key.
-    UserSneak.INSTANCE.configureUserSneakApiKey(this, USER_SNEAK_API_KEY)
+    UserSneak.INSTANCE
+        .configureUserSneakApiKey(this, USER_SNEAK_API_KEY)
         // See docs.usersneak.com/sheets to learn how to setup your sheet.
         .configureSheetsApi(this, SHEETS_API_KEY, SHEET_ID)
         // Set the minimum amount of time that must pass before the user is shown another survey.

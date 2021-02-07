@@ -1,9 +1,8 @@
 package com.usersneak.demo;
 
+import androidx.annotation.NonNull;
 import com.usersneak_api.SurveyResults;
 import com.usersneak_api.SurveyResultsHandler;
-
-import androidx.annotation.NonNull;
 
 public final class DemoSurveyResultsHandler implements SurveyResultsHandler {
 
