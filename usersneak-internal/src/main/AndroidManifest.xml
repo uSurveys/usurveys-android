@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.usersneak_internal">
+<manifest package="com.usersneak_internal"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools">
 
+  <uses-permission android:name="android.permission.INTERNET" />
+
+  <application>
+    <provider
+      android:name=".application.UserSneakInitProvider"
+      android:authorities="${applicationId}.usersneak.applicationprovider"
+      android:directBootAware="true"
+      android:exported="false"
+      android:initOrder="900"
+      tools:ignore="UnusedAttribute" />
+  </application>
 </manifest>

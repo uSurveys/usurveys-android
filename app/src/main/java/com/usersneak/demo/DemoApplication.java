@@ -23,7 +23,7 @@ public final class DemoApplication extends Application {
     application = this;
 
     // Sign up at usersneak.com, navigate to settings to find your API key.
-    UserSneak.INSTANCE
+    UserSneak.get()
         .configureUserSneakApiKey(this, USER_SNEAK_API_KEY)
         // See docs.usersneak.com/sheets to learn how to setup your sheet.
         .configureSheetsApi(this, SHEETS_API_KEY, SHEET_ID)

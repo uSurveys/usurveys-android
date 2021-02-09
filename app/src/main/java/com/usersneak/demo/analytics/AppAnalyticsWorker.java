@@ -14,15 +14,12 @@ import androidx.work.Operation;
 import androidx.work.WorkManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
-import retrofit2.Call;
-import retrofit2.Response;
 
 public final class AppAnalyticsWorker extends Worker {
 
@@ -96,27 +93,26 @@ public final class AppAnalyticsWorker extends Worker {
     String eventName = (String) properties.remove(ANALYTICS_EVENT_NAME_KEY);
     String timestamp = (String) properties.remove(ANALYTICS_EVENT_TIMESTAMP_KEY);
 
-    // Build request
     // TODO: build a call to your analytics endpoint here.
-    Call<Void> call = null; // = backend.postAnalyticsEvent(body);
+    // Call<Void> call = null; // = backend.postAnalyticsEvent(body);
 
     // Execute the request in this thread
-    Response<Void> response;
-    try {
-      response = call.execute();
-    } catch (IOException e) {
-      Log.e(TAG, "Flushing analytics event failed", e);
-      return Result.retry();
-    }
+    // Response<Void> response;
+    // try {
+    //   response = call.execute();
+    // } catch (IOException e) {
+    //   Log.e(TAG, "Flushing analytics event failed", e);
+    //   return Result.retry();
+    // }
 
     // If the request failed, try again after a backoff
-    if (response.code() != 200 && response.code() != 201) {
-      Log.e(TAG, "Flushing analytics event request failed");
-      return Result.retry();
-    }
+    // if (response.code() != 200 && response.code() != 201) {
+    //   Log.e(TAG, "Flushing analytics event request failed");
+    //   return Result.retry();
+    // }
 
     // Event successfully logged
-    Log.d(TAG, "Successfully flushed event. Response code: " + response.code());
+    Log.d(TAG, "Successfully flushed event. Response code: " /* + response.code() */);
     return Result.success();
   }
 }

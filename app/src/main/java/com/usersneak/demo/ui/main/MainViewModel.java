@@ -14,7 +14,7 @@ public class MainViewModel extends ViewModel {
 
   public LiveData<List<String>> getEventNames() {
     if (Objects.requireNonNull(events.getValue()).isEmpty()) {
-      UserSneak.INSTANCE.getAllEvents(this.events::setValue);
+      UserSneak.get().getAllEvents(events::setValue);
     }
     return events;
   }
