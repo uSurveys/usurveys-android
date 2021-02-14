@@ -5,8 +5,8 @@ import java.util.List;
 public abstract class UserSneakQuestion {
 
   public enum Type {
-    ONE_TO_FIVE,
-    ONE_TO_TEN,
+    NUMBERED,
+    MULTIPLE_CHOICE,
     LONG_ANSWER,
     SHORT_ANSWER,
   }

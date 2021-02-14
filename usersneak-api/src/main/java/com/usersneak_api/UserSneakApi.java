@@ -21,7 +21,7 @@ import java.util.List;
  *   <li>Call {@link #showTestSurvey} to validate that everything is setup properly.
  * </ol>
  *
- * To show surveys:
+ * <p>To show surveys:
  *
  * <ol>
  *   <li>Call {@link #track} to check for surveys for the given event.
@@ -38,10 +38,9 @@ public interface UserSneakApi {
   /**
    * Configure UserSneak to read from GoogleSheets.
    *
-   * @param sheetsApiKey Google Sheets API key. See TODO(allen): link to documentation.
-   * @param sheetId Google Sheet ID. See TODO(allen): link to documentation.
+   * @param sheetId Google Sheet ID. See docs.usersneak.com/sheets
    */
-  UserSneakApi configureSheetsApi(Context context, String sheetsApiKey, String sheetId);
+  UserSneakApi configureSheetsApi(Context context, String sheetId);
 
   /** Configure callback to handle survey results. See <link/> for an example. */
   UserSneakApi configureSurveyResultsHandler(Context context, SurveyResultsHandler handler);
@@ -50,7 +49,7 @@ public interface UserSneakApi {
   UserSneakApi configureResurveyWindowMillis(long millis);
 
   /**
-   * Ask UserLeap to preemptively track an event and prep a survey.
+   * Ask UserSneak to preemptively track an event and prep a survey.
    *
    * <p>This reduces load times when {@link #track} is called.
    */
@@ -62,14 +61,13 @@ public interface UserSneakApi {
   /**
    * Ask UserSneak to show the last {@link StatusCallback.SurveyStatus#AVAILABLE available} survey.
    */
-  void showSurvey(FragmentActivity activity, ActivityResultCallback<ActivityResult> resultCallback);
+  void showSurvey(
+      FragmentActivity activity,
+      String event,
+      ActivityResultCallback<ActivityResult> resultCallback);
 
   /** Clear any locally stored settings. */
   void logout(boolean clearResurveyWindow);
-
-  /** Ask UserSneak to show a test survey. */
-  void showTestSurvey(
-      FragmentActivity activity, ActivityResultCallback<ActivityResult> resultCallback);
 
   /**
    * Ask UserSneak for list of all available events. This is usually used for testing

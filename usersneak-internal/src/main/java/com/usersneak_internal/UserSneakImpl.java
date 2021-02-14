@@ -26,17 +26,20 @@ public final class UserSneakImpl implements UserSneakApi {
   }
 
   @Override
-  public UserSneakApi configureSheetsApi(Context context, String sheetsApiKey, String sheetId) {
+  public UserSneakApi configureSheetsApi(Context context, String sheetId) {
+    // TODO(allen): store this sheet ID and use it !
     return this;
   }
 
   @Override
   public UserSneakApi configureSurveyResultsHandler(Context context, SurveyResultsHandler handler) {
+    // TODO(allen): store this handler and deliver the survey results back to the client
     return this;
   }
 
   @Override
   public UserSneakApi configureResurveyWindowMillis(long millis) {
+    // TODO(allen): store this value and use it !
     return this;
   }
 
@@ -47,9 +50,9 @@ public final class UserSneakImpl implements UserSneakApi {
 
   @Override
   public void track(String event, StatusCallback statusCallback) {
-    LiveData<RequestStatus<Optional<Survey>>> livedata =
+    LiveData<RequestStatus<Optional<Survey>>> liveData =
         SheetsModule.getInstance().getSurvey(event);
-    livedata.observeForever(
+    liveData.observeForever(
         new Observer<RequestStatus<Optional<Survey>>>() {
           @Override
           public void onChanged(RequestStatus<Optional<Survey>> status) {
@@ -63,7 +66,7 @@ public final class UserSneakImpl implements UserSneakApi {
               } else {
                 statusCallback.handleStatus(SurveyStatus.SURVEY_MALFORMED);
               }
-              livedata.removeObserver(this);
+              liveData.removeObserver(this);
               return;
             }
 
@@ -71,7 +74,7 @@ public final class UserSneakImpl implements UserSneakApi {
               if (status.getResult().isPresent()) {
                 statusCallback.handleStatus(SurveyStatus.AVAILABLE);
               }
-              livedata.removeObserver(this);
+              liveData.removeObserver(this);
               return;
             }
             throw new IllegalStateException("Unhandled state: " + status.status);
@@ -81,16 +84,15 @@ public final class UserSneakImpl implements UserSneakApi {
 
   @Override
   public void showSurvey(
-      FragmentActivity activity, ActivityResultCallback<ActivityResult> resultCallback) {
+      FragmentActivity activity,
+      String event,
+      ActivityResultCallback<ActivityResult> resultCallback) {
+    // TODO(allen): Actually show the survey
     resultCallback.onActivityResult(new ActivityResult(AppCompatActivity.RESULT_CANCELED, null));
   }
 
   @Override
   public void logout(boolean clearResurveyWindow) {}
-
-  @Override
-  public void showTestSurvey(
-      FragmentActivity activity, ActivityResultCallback<ActivityResult> resultCallback) {}
 
   @Override
   public void getAllEvents(AllEventsCallback callback) {

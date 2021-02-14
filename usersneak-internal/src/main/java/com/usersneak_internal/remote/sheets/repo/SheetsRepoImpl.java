@@ -16,7 +16,6 @@ import com.usersneak_internal.utils.RequestStatusLiveData;
 import com.usersneak_internal.utils.network.RequestStatus;
 import com.usersneak_internal.utils.network.RequestStatus.Status;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
@@ -50,7 +49,7 @@ public final class SheetsRepoImpl implements SheetsRepo {
                   @NonNull Call<GetSheetResponse> call,
                   @NonNull Response<GetSheetResponse> response) {
                 if (!response.isSuccessful()) {
-                  Log.e("UserLeap", "GetSheets failed with non-200 error");
+                  Log.e("UserSneak", "GetSheets failed with non-200 error");
                   surveyTitles.setValue(
                       RequestStatus.error(
                           new RemoteException("Failed to fetch sheet: " + response.code())));
@@ -58,7 +57,7 @@ public final class SheetsRepoImpl implements SheetsRepo {
                 }
 
                 if (response.body() == null || response.body().sheets.isEmpty()) {
-                  Log.e("UserLeap", "GetSheets failed: Sheet has no sheets");
+                  Log.e("UserSneak", "GetSheets failed: Sheet has no sheets");
                   surveyTitles.setValue(
                       RequestStatus.error(new RemoteException("Failed to fetch sheet: no sheets")));
                   return;
@@ -67,7 +66,7 @@ public final class SheetsRepoImpl implements SheetsRepo {
                 for (ServerSheet sheet : response.body().sheets) {
                   if (Strings.isNullOrEmpty(sheet.properties.title)
                       || Strings.isNullOrEmpty(sheet.properties.sheetId)) {
-                    Log.e("UserLeap", "GetSheets failed: Sheet has no ID");
+                    Log.e("UserSneak", "GetSheets failed: Sheet has no ID");
                     continue;
                   }
                   // titleToIdMap.put(sheet.properties.title, sheet.properties.sheetId);
@@ -96,7 +95,7 @@ public final class SheetsRepoImpl implements SheetsRepo {
               @Override
               public void onFailure(
                   @NonNull Call<GetSheetResponse> call, @NonNull Throwable throwable) {
-                Log.e("UserLeap", "GetSheets failed for unknown reason");
+                Log.e("UserSneak", "GetSheets failed for unknown reason");
                 surveyTitles.setValue(
                     RequestStatus.error(new Exception("Failed to fetch sheets", throwable)));
               }
@@ -156,18 +155,48 @@ public final class SheetsRepoImpl implements SheetsRepo {
               public void onResponse(
                   @NonNull Call<SheetsValuesResponse> call,
                   @NonNull Response<SheetsValuesResponse> response) {
-                // TODO(allen): parse this :)
-                for (List<String> row : response.body().values) {
-                  for (String val : row) {
-                    Log.i("###", val);
-                  }
+                if (!response.isSuccessful()) {
+                  Log.e("UserSneak", "GetSheets failed: Sheet has no sheets");
+                  liveData.setValue(
+                      RequestStatus.error(new RemoteException("Failed to fetch sheet: ")));
+                  return;
+                }
+
+                if (response.body() == null
+                    || response.body().values == null
+                    || response.body().values.isEmpty()) {
+                  Log.e("UserSneak", "GetSheet failed: Sheet is missing or empty");
+                  liveData.setValue(
+                      RequestStatus.error(
+                          new RemoteException("Failed to fetch sheet: Sheet is missing or empty")));
+                  return;
+                }
+
+                SheetsValuesResponse body = SheetsValuesResponse.clean(response.body());
+                Survey survey = Survey.from(body, event);
+                switch (survey.status) {
+                  case NO_SURVEY:
+                    liveData.setValue(RequestStatus.success(Optional.absent()));
+                    break;
+
+                  case AVAILABLE:
+                    liveData.setValue(RequestStatus.success(Optional.of(survey)));
+                    break;
+
+                  case SURVEY_MALFORMED:
+                    liveData.setValue(
+                        RequestStatus.error(new RemoteException("Survey malformed: " + event)));
+                    break;
+
+                  default:
+                    throw new IllegalArgumentException("Unhandled survey status: " + survey.status);
                 }
               }
 
               @Override
               public void onFailure(
                   @NonNull Call<SheetsValuesResponse> call, @NonNull Throwable throwable) {
-                Log.e("UserLeap", "GetSheetValues failed for unknown reason");
+                Log.e("UserSneak", "GetSheetValues failed for unknown reason");
                 liveData.setValue(
                     RequestStatus.error(new Exception("Failed to fetch sheet values", throwable)));
               }

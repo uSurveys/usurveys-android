@@ -8,8 +8,7 @@ import java.util.concurrent.TimeUnit;
 public final class DemoApplication extends Application {
 
   private static final String USER_SNEAK_API_KEY = "user_sneak_api_key";
-  private static final String SHEETS_API_KEY = "sheets_api_key";
-  private static final String SHEET_ID = "sheet_id";
+  private static final String SHEET_ID = "1CSF6Vyxi31x0IeceG4h41OmfM0qcnL9aa3tV3TvYwE8";
 
   private static DemoApplication application;
 
@@ -26,7 +25,7 @@ public final class DemoApplication extends Application {
     UserSneak.get()
         .configureUserSneakApiKey(this, USER_SNEAK_API_KEY)
         // See docs.usersneak.com/sheets to learn how to setup your sheet.
-        .configureSheetsApi(this, SHEETS_API_KEY, SHEET_ID)
+        .configureSheetsApi(this, SHEET_ID)
         // Set the minimum amount of time that must pass before the user is shown another survey.
         // See docs.userneak.com/resurvey to learn more.
         .configureResurveyWindowMillis(TimeUnit.SECONDS.toMillis(5))

@@ -17,7 +17,7 @@ public final class UserSneakStub implements UserSneakApi {
   }
 
   @Override
-  public UserSneakApi configureSheetsApi(Context context, String sheetsApiKey, String sheetId) {
+  public UserSneakApi configureSheetsApi(Context context, String sheetId) {
     return this;
   }
 
@@ -41,16 +41,14 @@ public final class UserSneakStub implements UserSneakApi {
 
   @Override
   public void showSurvey(
-      FragmentActivity activity, ActivityResultCallback<ActivityResult> resultCallback) {
+      FragmentActivity activity,
+      String event,
+      ActivityResultCallback<ActivityResult> resultCallback) {
     resultCallback.onActivityResult(new ActivityResult(AppCompatActivity.RESULT_OK, null));
   }
 
   @Override
   public void logout(boolean clearResurveyWindow) {}
-
-  @Override
-  public void showTestSurvey(
-      FragmentActivity activity, ActivityResultCallback<ActivityResult> resultCallback) {}
 
   @Override
   public void getAllEvents(AllEventsCallback callback) {

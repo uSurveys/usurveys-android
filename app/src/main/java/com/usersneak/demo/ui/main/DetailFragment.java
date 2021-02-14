@@ -54,6 +54,7 @@ public final class DetailFragment extends Fragment {
                               UserSneak.get()
                                   .showSurvey(
                                       requireActivity(),
+                                      eventName,
                                       result -> {
                                         if (result.getResultCode() == AppCompatActivity.RESULT_OK) {
                                           Navigation.findNavController(root).popBackStack();
