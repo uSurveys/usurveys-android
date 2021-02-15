@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import com.usersneak.UserSneak;
 import com.usersneak.demo.R;
+import com.usersneak_api.UserSneakApi.StatusCallback;
 
 public final class DetailFragment extends Fragment {
 
@@ -36,42 +37,46 @@ public final class DetailFragment extends Fragment {
 
     root.findViewById(R.id.btn_pre_track)
         .setOnClickListener(view -> UserSneak.get().preTrack(eventName));
+
     root.findViewById(R.id.btn_track)
         .setOnClickListener(
-            view ->
-                UserSneak.get()
-                    .track(
-                        eventName,
-                        status -> {
-                          switch (status) {
-                            case NO_SURVEY:
-                              Toast.makeText(requireContext(), "No survey", Toast.LENGTH_SHORT)
-                                  .show();
-                              break;
-                            case AVAILABLE:
-                              Toast.makeText(requireContext(), "Showing survey", Toast.LENGTH_SHORT)
-                                  .show();
-                              UserSneak.get()
-                                  .showSurvey(
-                                      requireActivity(),
-                                      eventName,
-                                      result -> {
-                                        if (result.getResultCode() == AppCompatActivity.RESULT_OK) {
-                                          Navigation.findNavController(root).popBackStack();
-                                        } else if (result.getResultCode()
-                                            == AppCompatActivity.RESULT_CANCELED) {
-                                          Toast.makeText(
-                                                  requireContext(),
-                                                  "Survey cancelled",
-                                                  Toast.LENGTH_SHORT)
-                                              .show();
-                                          Navigation.findNavController(root).popBackStack();
-                                        }
-                                      });
-                              break;
-                            case SURVEY_MALFORMED:
-                              break;
-                          }
-                        }));
+            view -> {
+              StatusCallback callback =
+                  status -> {
+                    switch (status) {
+                      case NO_SURVEY:
+                        Toast.makeText(requireContext(), "No survey", Toast.LENGTH_SHORT).show();
+                        break;
+                      case AVAILABLE:
+                        Toast.makeText(requireContext(), "Showing survey", Toast.LENGTH_SHORT)
+                            .show();
+                        UserSneak.get()
+                            .showSurvey(
+                                requireActivity(),
+                                eventName,
+                                result -> {
+                                  if (result.getResultCode() == AppCompatActivity.RESULT_OK) {
+                                    Navigation.findNavController(root).popBackStack();
+
+                                  } else if (result.getResultCode()
+                                      == AppCompatActivity.RESULT_CANCELED) {
+                                    Toast.makeText(
+                                            requireContext(),
+                                            "Survey cancelled",
+                                            Toast.LENGTH_SHORT)
+                                        .show();
+                                    Navigation.findNavController(root).popBackStack();
+                                  }
+                                });
+                        break;
+                      case SURVEY_MALFORMED:
+                        Toast.makeText(requireContext(), "Showing Malformed", Toast.LENGTH_SHORT)
+                            .show();
+                        break;
+                    }
+                  };
+
+              UserSneak.get().track(eventName, callback);
+            });
   }
 }

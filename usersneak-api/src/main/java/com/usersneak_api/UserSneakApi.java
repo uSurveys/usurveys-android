@@ -18,7 +18,6 @@ import java.util.List;
  *   <li>Call {@link #configureSheetsApi} from {@link Application#onCreate()}.
  *   <li>Call {@link #configureResurveyWindowMillis} from {@link Application#onCreate()}.
  *   <li>Call {@link #configureSurveyResultsHandler} where convenient.
- *   <li>Call {@link #showTestSurvey} to validate that everything is setup properly.
  * </ol>
  *
  * <p>To show surveys:

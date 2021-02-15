@@ -22,6 +22,38 @@ allprojects {
     }
 }
 
+ext {
+    androidCore = [
+            fragment           : 'androidx.fragment:fragment:1.3.0',
+            appCompat          : 'androidx.appcompat:appcompat:1.2.0',
+            material           : 'com.google.android.material:material:1.3.0',
+            desugaring         : 'com.android.tools:desugar_jdk_libs:1.1.1',
+            constraint_layout  : 'androidx.constraintlayout:constraintlayout:2.0.4',
+            navigation_fragment: 'androidx.navigation:navigation-fragment:2.3.3',
+            navigation_ui      : 'androidx.navigation:navigation-ui:2.3.3',
+
+    ]
+
+    retrofit = [
+            retrofit           : 'com.squareup.retrofit2:retrofit:2.9.0',
+            gson               : 'com.squareup.retrofit2:converter-gson:2.9.0',
+            scalars            : 'com.squareup.retrofit2:converter-scalars:2.9.0',
+            okhttp             : 'com.squareup.okhttp3:okhttp:4.9.0',
+            logging_interceptor: 'com.squareup.okhttp3:logging-interceptor:4.9.0',
+    ]
+
+    google = [
+            gson : 'com.google.code.gson:gson:2.8.6',
+            guava: 'com.google.guava:guava:29.0-android',
+    ]
+
+    testing = [
+            junit        : 'junit:junit:4.13.1',
+            androidxJunit: 'androidx.test.ext:junit:1.1.2',
+            espresso     : 'androidx.test.espresso:espresso-core:3.3.0',
+    ]
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
