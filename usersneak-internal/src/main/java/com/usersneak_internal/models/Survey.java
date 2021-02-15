@@ -90,6 +90,7 @@ public final class Survey {
                   OpenEndedQuestion.Type.SHORT,
                   parseOpenEndedQuestion(headers, sheetsQuestion),
                   ""));
+          break;
         default:
           Log.d("UserSneak", "Unsupported question type: " + type);
           break;

@@ -1,13 +1,15 @@
 package com.usersneak.demo.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -16,6 +18,14 @@ import com.usersneak.demo.R;
 import com.usersneak_api.UserSneakApi.StatusCallback;
 
 public final class DetailFragment extends Fragment {
+
+  ActivityResultLauncher<Intent> userSneakLauncher =
+      registerForActivityResult(
+          new StartActivityForResult(),
+          result -> {
+            Toast.makeText(requireContext(), "Survey completed", Toast.LENGTH_SHORT).show();
+            Navigation.findNavController(requireView()).popBackStack();
+          });
 
   @Nullable
   @Override
@@ -47,31 +57,13 @@ public final class DetailFragment extends Fragment {
                       case NO_SURVEY:
                         Toast.makeText(requireContext(), "No survey", Toast.LENGTH_SHORT).show();
                         break;
-                      case AVAILABLE:
-                        Toast.makeText(requireContext(), "Showing survey", Toast.LENGTH_SHORT)
-                            .show();
-                        UserSneak.get()
-                            .showSurvey(
-                                requireActivity(),
-                                eventName,
-                                result -> {
-                                  if (result.getResultCode() == AppCompatActivity.RESULT_OK) {
-                                    Navigation.findNavController(root).popBackStack();
 
-                                  } else if (result.getResultCode()
-                                      == AppCompatActivity.RESULT_CANCELED) {
-                                    Toast.makeText(
-                                            requireContext(),
-                                            "Survey cancelled",
-                                            Toast.LENGTH_SHORT)
-                                        .show();
-                                    Navigation.findNavController(root).popBackStack();
-                                  }
-                                });
+                      case AVAILABLE:
+                        UserSneak.get().showSurvey(requireActivity(), eventName, userSneakLauncher);
                         break;
+
                       case SURVEY_MALFORMED:
-                        Toast.makeText(requireContext(), "Showing Malformed", Toast.LENGTH_SHORT)
-                            .show();
+                        Toast.makeText(requireContext(), "Malformed", Toast.LENGTH_SHORT).show();
                         break;
                     }
                   };

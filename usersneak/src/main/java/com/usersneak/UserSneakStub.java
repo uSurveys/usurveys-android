@@ -1,9 +1,8 @@
 package com.usersneak;
 
 import android.content.Context;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.fragment.app.FragmentActivity;
 import com.usersneak_api.SurveyResultsHandler;
 import com.usersneak_api.UserSneakApi;
@@ -41,10 +40,8 @@ public final class UserSneakStub implements UserSneakApi {
 
   @Override
   public void showSurvey(
-      FragmentActivity activity,
-      String event,
-      ActivityResultCallback<ActivityResult> resultCallback) {
-    resultCallback.onActivityResult(new ActivityResult(AppCompatActivity.RESULT_OK, null));
+      FragmentActivity activity, String event, ActivityResultLauncher<Intent> launcher) {
+    // TODO(usersneak): figure out a way to short circuit the launcher here.
   }
 
   @Override

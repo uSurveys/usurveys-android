@@ -1,10 +1,10 @@
 package com.usersneak_internal;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.RemoteException;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.appcompat.app.AppCompatActivity;
+import android.util.Log;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -15,6 +15,7 @@ import com.usersneak_api.UserSneakApi;
 import com.usersneak_api.UserSneakApi.StatusCallback.SurveyStatus;
 import com.usersneak_internal.models.Survey;
 import com.usersneak_internal.remote.sheets.repo.SheetsModule;
+import com.usersneak_internal.ui.UserSneakSurveyActivity;
 import com.usersneak_internal.utils.network.RequestStatus;
 import com.usersneak_internal.utils.network.RequestStatus.Status;
 
@@ -62,8 +63,10 @@ public final class UserSneakImpl implements UserSneakApi {
 
             if (status.status == Status.FAILED) {
               if (status.getError() instanceof RemoteException) {
+                Log.d("UserSneak", "FAILURE: no survey");
                 statusCallback.handleStatus(SurveyStatus.NO_SURVEY);
               } else {
+                Log.d("UserSneak", "FAILURE: survey malformed");
                 statusCallback.handleStatus(SurveyStatus.SURVEY_MALFORMED);
               }
               liveData.removeObserver(this);
@@ -72,7 +75,11 @@ public final class UserSneakImpl implements UserSneakApi {
 
             if (status.status == Status.SUCCESS) {
               if (status.getResult().isPresent()) {
+                Log.d("UserSneak", "SUCCESS: Survey Available");
                 statusCallback.handleStatus(SurveyStatus.AVAILABLE);
+              } else {
+                Log.d("UserSneak", "SUCCESS: No Survey Active");
+                statusCallback.handleStatus(SurveyStatus.NO_SURVEY);
               }
               liveData.removeObserver(this);
               return;
@@ -84,11 +91,9 @@ public final class UserSneakImpl implements UserSneakApi {
 
   @Override
   public void showSurvey(
-      FragmentActivity activity,
-      String event,
-      ActivityResultCallback<ActivityResult> resultCallback) {
-    // TODO(allen): Actually show the survey
-    resultCallback.onActivityResult(new ActivityResult(AppCompatActivity.RESULT_CANCELED, null));
+      FragmentActivity activity, String event, ActivityResultLauncher<Intent> launcher) {
+    Log.d("UserSneak", "Launching Survey");
+    launcher.launch(UserSneakSurveyActivity.create(activity, event));
   }
 
   @Override

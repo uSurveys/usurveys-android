@@ -2,8 +2,8 @@ package com.usersneak_api;
 
 import android.app.Application;
 import android.content.Context;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
+import android.content.Intent;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -60,10 +60,7 @@ public interface UserSneakApi {
   /**
    * Ask UserSneak to show the last {@link StatusCallback.SurveyStatus#AVAILABLE available} survey.
    */
-  void showSurvey(
-      FragmentActivity activity,
-      String event,
-      ActivityResultCallback<ActivityResult> resultCallback);
+  void showSurvey(FragmentActivity activity, String event, ActivityResultLauncher<Intent> launcher);
 
   /** Clear any locally stored settings. */
   void logout(boolean clearResurveyWindow);
@@ -95,5 +92,16 @@ public interface UserSneakApi {
   interface AllEventsCallback {
 
     void handleEventsReady(@NonNull List<String> events);
+  }
+
+  /**
+   * Used to know when the user has completed the survey in case the survey should be part of the
+   * app flow.
+   */
+  interface SurveyFinishedCallback {
+
+    /** Called when the survey is complete. */
+    @MainThread
+    void onSurveyFinished();
   }
 }
