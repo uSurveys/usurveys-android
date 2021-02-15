@@ -48,15 +48,9 @@ public final class SheetsRepoImplTest {
     {SheetsValuesResponse.STATUS, SheetsValuesResponse.STATUS_LIVE},
     headers,
     {"1", "q1", "numbered", "1|2|3|4", "jump", "2", "5", "jump", "3"},
-    {
-      "2", "q2", "short answer", "", "jump", "4",
-    },
-    {
-      "3", "q3", "long answer", "", "end", "",
-    },
-    {
-      "4", "q4", "multiple choice", "Run it|\nJump it|\nCrush it", "end", "",
-    }
+    {"2", "q2", "short answer", "", "jump", "4"},
+    {"3", "q3", "long answer", "", "end", ""},
+    {"4", "q4", "multiple choice", "Run it|\nJump it|\nCrush it", "end", ""}
   };
 
   private final SheetsApi mockSheetsApi = mock(SheetsApi.class);
