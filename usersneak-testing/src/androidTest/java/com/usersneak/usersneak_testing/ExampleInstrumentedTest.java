@@ -1,4 +1,4 @@
-package com.usersneak_api;
+package com.usersneak.usersneak_testing;
 
 import static org.junit.Assert.*;
 
@@ -15,10 +15,11 @@ import org.junit.runner.RunWith;
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
+
   @Test
   public void useAppContext() {
     // Context of the app under test.
     Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-    assertEquals("com.usersneak_api.test", appContext.getPackageName());
+    assertEquals("com.usersneak.usersneak_testing.test", appContext.getPackageName());
   }
 }

@@ -22,33 +22,13 @@ android {
         }
     }
     compileOptions {
-        coreLibraryDesugaringEnabled true
-
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
-    api project(':usersneak-api')
-    api rootProject.ext.androidCore.fragment
     api rootProject.ext.androidCore.appCompat
-    api rootProject.ext.androidCore.material
-
-    api rootProject.ext.google.guava
-    api rootProject.ext.google.gson
-
-    coreLibraryDesugaring rootProject.ext.androidCore.desugaring
-
-    // Retrofit
-    api rootProject.ext.retrofit.retrofit
-    api rootProject.ext.retrofit.gson
-    api rootProject.ext.retrofit.scalars
-    api rootProject.ext.retrofit.okhttp
-    api rootProject.ext.retrofit.logging_interceptor
-
-    // Testing
-    testImplementation project(':usersneak-testing')
     testImplementation rootProject.ext.testing.junit
     androidTestImplementation rootProject.ext.testing.androidxJunit
     androidTestImplementation rootProject.ext.testing.espresso
