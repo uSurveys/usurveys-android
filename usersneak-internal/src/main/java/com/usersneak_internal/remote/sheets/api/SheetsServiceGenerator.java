@@ -1,5 +1,6 @@
 package com.usersneak_internal.remote.sheets.api;
 
+import androidx.annotation.VisibleForTesting;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -42,6 +43,11 @@ public class SheetsServiceGenerator {
       sheetsApiService = retrofit.create(SheetsApi.class);
     }
     return sheetsApiService;
+  }
+
+  @VisibleForTesting
+  public static void setForTesting(SheetsApi sheetsApi) {
+    sheetsApiService = sheetsApi;
   }
 
   private static HttpLoggingInterceptor buildLoggingInterceptor() {

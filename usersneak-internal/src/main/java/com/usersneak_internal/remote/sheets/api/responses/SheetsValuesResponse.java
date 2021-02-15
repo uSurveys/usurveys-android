@@ -1,7 +1,9 @@
 package com.usersneak_internal.remote.sheets.api.responses;
 
+import androidx.annotation.VisibleForTesting;
 import com.google.common.base.Strings;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,5 +81,15 @@ public class SheetsValuesResponse {
 
   private static String clean(String val) {
     return Strings.nullToEmpty(val).toLowerCase().trim();
+  }
+
+  @VisibleForTesting
+  public static SheetsValuesResponse createForTesting(String[][] sheet) {
+    SheetsValuesResponse response = new SheetsValuesResponse();
+    response.values =
+        Arrays.stream(sheet)
+            .map(row -> Arrays.stream(row).collect(Collectors.toList()))
+            .collect(Collectors.toList());
+    return response;
   }
 }

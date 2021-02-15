@@ -64,8 +64,7 @@ public final class SheetsRepoImpl implements SheetsRepo {
                 }
 
                 for (ServerSheet sheet : response.body().sheets) {
-                  if (Strings.isNullOrEmpty(sheet.properties.title)
-                      || Strings.isNullOrEmpty(sheet.properties.sheetId)) {
+                  if (Strings.isNullOrEmpty(sheet.properties.title)) {
                     Log.e("UserSneak", "GetSheets failed: Sheet has no ID");
                     continue;
                   }

@@ -1,5 +1,7 @@
 package com.usersneak_internal.remote.sheets.repo;
 
+import androidx.annotation.VisibleForTesting;
+
 public final class SheetsModule {
 
   private static SheetsRepo sheetsRepo = null;
@@ -12,4 +14,9 @@ public final class SheetsModule {
   }
 
   private SheetsModule() {}
+
+  @VisibleForTesting
+  public static void clearForTesting() {
+    sheetsRepo = null;
+  }
 }

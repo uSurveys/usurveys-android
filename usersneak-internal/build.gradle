@@ -27,6 +27,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
+    }
 }
 
 dependencies {
@@ -49,7 +55,15 @@ dependencies {
 
     // Testing
     testImplementation project(':usersneak-testing')
+    testImplementation rootProject.ext.testing.truth
+    testImplementation rootProject.ext.testing.mockito
     testImplementation rootProject.ext.testing.junit
-    androidTestImplementation rootProject.ext.testing.androidxJunit
-    androidTestImplementation rootProject.ext.testing.espresso
+    testImplementation rootProject.ext.testing.androidxJunit
+    testImplementation rootProject.ext.testing.androidxCore
+    testImplementation rootProject.ext.testing.androidxRunner
+    testImplementation rootProject.ext.testing.androidxRules
+    testImplementation rootProject.ext.testing.robolectric
+    testImplementation rootProject.ext.testing.espresso
+//    androidTestImplementation rootProject.ext.testing.androidxJunit
+//    testImplementation rootProject.ext.testing.espresso
 }

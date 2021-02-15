@@ -5,6 +5,7 @@ import static com.usersneak_internal.models.Answer.Logic.JUMP;
 import com.google.common.base.Optional;
 import com.usersneak_api.UserSneakQuestion;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class MultipleChoiceQuestion extends QuestionInternal {
 
@@ -48,7 +49,7 @@ public final class MultipleChoiceQuestion extends QuestionInternal {
 
   @Override
   public List<String> getAnswers() {
-    return null;
+    return answers.stream().map(McAnswer::getText).collect(Collectors.toList());
   }
 
   @Override

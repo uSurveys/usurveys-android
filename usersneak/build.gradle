@@ -1,5 +1,5 @@
 plugins {
-    id 'com.android.library'
+    id "com.android.library"
 }
 
 android {
@@ -18,7 +18,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
     compileOptions {
@@ -29,7 +29,7 @@ android {
 
 dependencies {
     // Use `api` here to forward the UserSneak interfaces to UserSneak clients.
-    api project(':usersneak-api')
+    api project(":usersneak-api")
     api rootProject.ext.androidCore.appCompat
 
     // Use `implementation` here to hide implementation details.
