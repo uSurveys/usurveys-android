@@ -18,6 +18,7 @@
       android:name=".ui.UserSneakSurveyActivity"
       android:exported="false"
       android:screenOrientation="portrait"
-      android:theme="@style/Theme.AppCompat.Translucent" />
+      android:theme="@style/Theme.AppCompat.Translucent"
+      android:windowSoftInputMode="adjustResize" />
   </application>
 </manifest>
