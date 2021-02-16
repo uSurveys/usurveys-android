@@ -1,7 +1,6 @@
 package com.usersneak_internal.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.usersneak_internal.R;
+import com.usersneak_internal.utils.uiutils.FragmentUtils;
 
 public final class ShortAnswerQuestionFragment extends Fragment {
 
@@ -19,7 +19,6 @@ public final class ShortAnswerQuestionFragment extends Fragment {
       @NonNull LayoutInflater inflater,
       @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    Log.d("UserSneak", "showing short answer");
     return inflater.inflate(R.layout.fragment_short_answer_question, container, false);
   }
 
@@ -32,14 +31,14 @@ public final class ShortAnswerQuestionFragment extends Fragment {
               @Override
               public void onGlobalLayout() {
                 root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                ((UserSneakSurveyActivity) requireActivity()).reportHeight(root.getHeight());
+                getParent().reportHeight(root.getHeight());
               }
             });
 
-    root.findViewById(R.id.next_question)
-        .setOnClickListener(
-            view -> {
-              ((SurveyHostFragment) getParentFragment()).nextQuestion();
-            });
+    root.findViewById(R.id.next_question).setOnClickListener(view -> getParent().submitAnswer(""));
+  }
+
+  private SurveyQuestionParent getParent() {
+    return FragmentUtils.getParentUnsafe(this, SurveyQuestionParent.class);
   }
 }

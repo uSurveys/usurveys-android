@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.usersneak_internal.R;
+import com.usersneak_internal.utils.uiutils.FragmentUtils;
 
 public final class NumberedQuestionFragment extends Fragment {
 
@@ -32,14 +33,14 @@ public final class NumberedQuestionFragment extends Fragment {
               @Override
               public void onGlobalLayout() {
                 root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                ((UserSneakSurveyActivity) requireActivity()).reportHeight(root.getHeight());
+                getParent().reportHeight(root.getHeight());
               }
             });
 
-    root.findViewById(R.id.next_question)
-        .setOnClickListener(
-            view -> {
-              ((SurveyHostFragment) getParentFragment()).nextQuestion();
-            });
+    root.findViewById(R.id.next_question).setOnClickListener(view -> getParent().submitAnswer(""));
+  }
+
+  private SurveyQuestionParent getParent() {
+    return FragmentUtils.getParentUnsafe(this, SurveyQuestionParent.class);
   }
 }

@@ -9,9 +9,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.usersneak_internal.R;
+import com.usersneak_internal.ui.SurveyHostFragment.SurveyHostParent;
+import com.usersneak_internal.utils.uiutils.FragmentUtils.FragmentUtilListener;
 
 /** Root activity presenting the survey as a bottom sheet. */
-public final class UserSneakSurveyActivity extends AppCompatActivity {
+public final class UserSneakSurveyActivity extends AppCompatActivity
+    implements FragmentUtilListener {
+
+  private MainSurveyHostParent surveyHostParent;
 
   public static Intent create(Context context, String event) {
     Intent intent = new Intent(context, UserSneakSurveyActivity.class);
@@ -33,8 +38,9 @@ public final class UserSneakSurveyActivity extends AppCompatActivity {
   private void initBottomSheetBehavior() {
     BottomSheetBehavior<View> bottomSheetBehavior =
         BottomSheetBehavior.from(findViewById(R.id.bottom_sheet_root));
+    surveyHostParent = new MainSurveyHostParent(bottomSheetBehavior);
 
-    findViewById(R.id.bottomsheet_dim).setOnClickListener(view -> dismissSurvey());
+    findViewById(R.id.bottomsheet_dim).setOnClickListener(view -> surveyHostParent.dismissSurvey());
 
     // Expanded by default
     bottomSheetBehavior.setDraggable(false);
@@ -56,14 +62,31 @@ public final class UserSneakSurveyActivity extends AppCompatActivity {
         });
   }
 
-  public void reportHeight(int height) {
-    BottomSheetBehavior<View> bottomSheetBehavior =
-        BottomSheetBehavior.from(findViewById(R.id.bottom_sheet_root));
-    bottomSheetBehavior.setPeekHeight(height, true);
+  private static final class MainSurveyHostParent implements SurveyHostParent {
+
+    private final BottomSheetBehavior<View> bottomsheet;
+
+    private MainSurveyHostParent(BottomSheetBehavior<View> bottomsheet) {
+      this.bottomsheet = bottomsheet;
+    }
+
+    @Override
+    public void dismissSurvey() {
+      bottomsheet.setState(BottomSheetBehavior.STATE_HIDDEN);
+    }
+
+    @Override
+    public void reportHeight(int height) {
+      bottomsheet.setPeekHeight(height, true);
+    }
   }
 
-  public void dismissSurvey() {
-    BottomSheetBehavior.from(findViewById(R.id.bottom_sheet_root))
-        .setState(BottomSheetBehavior.STATE_HIDDEN);
+  @Nullable
+  @Override
+  public <T> T getImpl(Class<T> callbackInterface) {
+    if (callbackInterface.isInstance(surveyHostParent)) {
+      return (T) surveyHostParent;
+    }
+    return null;
   }
 }
