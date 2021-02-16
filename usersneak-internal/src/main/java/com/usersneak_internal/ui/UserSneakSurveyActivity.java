@@ -64,20 +64,20 @@ public final class UserSneakSurveyActivity extends AppCompatActivity
 
   private static final class MainSurveyHostParent implements SurveyHostParent {
 
-    private final BottomSheetBehavior<View> bottomsheet;
+    private final BottomSheetBehavior<View> bottomSheetBehavior;
 
-    private MainSurveyHostParent(BottomSheetBehavior<View> bottomsheet) {
-      this.bottomsheet = bottomsheet;
+    private MainSurveyHostParent(BottomSheetBehavior<View> bottomSheetBehavior) {
+      this.bottomSheetBehavior = bottomSheetBehavior;
     }
 
     @Override
     public void dismissSurvey() {
-      bottomsheet.setState(BottomSheetBehavior.STATE_HIDDEN);
+      bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     @Override
     public void reportHeight(int height) {
-      bottomsheet.setPeekHeight(height, true);
+      bottomSheetBehavior.setPeekHeight(height, true);
     }
   }
 

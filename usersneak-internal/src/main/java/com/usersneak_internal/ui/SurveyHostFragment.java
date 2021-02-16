@@ -60,7 +60,6 @@ public final class SurveyHostFragment extends Fragment implements FragmentUtilLi
                     requireActivity().finish();
                     return;
                   }
-                  Log.d("UserSneak", "Starting survey");
                   surveyQuestionsParent =
                       new SurveyQuestionsParent(
                           FragmentUtils.getParentUnsafe(this, SurveyHostParent.class),
@@ -119,7 +118,7 @@ public final class SurveyHostFragment extends Fragment implements FragmentUtilLi
     private void setQuestion(QuestionInternal question) {
       Bundle args = new Bundle();
       args.putString(EVENT_NAME_KEY, survey.surveyName);
-      args.putString("question_id", question.getId());
+      args.putString(QUESTION_ID_KEY, question.getId());
       childFragmentManager
           .beginTransaction()
           .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)

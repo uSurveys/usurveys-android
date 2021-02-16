@@ -1,7 +1,6 @@
 package com.usersneak_internal.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ public final class MultipleChoiceQuestionFragment extends Fragment {
       @NonNull LayoutInflater inflater,
       @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    Log.d("UserSneak", "showing MC");
     return inflater.inflate(R.layout.fragment_multiple_choice_question, container, false);
   }
 
