@@ -20,9 +20,6 @@ public abstract class UserSneakQuestion {
   /** Returns the list of possible answers for multiple choice questions. Null otherwise. */
   public abstract List<String> getAnswers();
 
-  /** Returns the user's selected answer. Will be empty if user didn't answer/hasn't answered. */
-  public abstract String getAnswer();
-
   /** Returns the question {@link Type type}. */
   public abstract Type getType();
 }

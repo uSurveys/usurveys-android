@@ -66,12 +66,12 @@ public final class Survey {
         case SheetsValuesResponse.QUESTION_TYPE_NUMBERED:
           questions.add(
               new MultipleChoiceQuestion(
-                  id, question, Type.NUMBERED, parseMcAnswers(headers, sheetsQuestion), ""));
+                  id, question, Type.NUMBERED, parseMcAnswers(headers, sheetsQuestion)));
           break;
         case SheetsValuesResponse.QUESTION_TYPE_MC:
           questions.add(
               new MultipleChoiceQuestion(
-                  id, question, Type.MC, parseMcAnswers(headers, sheetsQuestion), ""));
+                  id, question, Type.MC, parseMcAnswers(headers, sheetsQuestion)));
           break;
         case SheetsValuesResponse.QUESTION_TYPE_LONG:
           questions.add(
@@ -79,8 +79,7 @@ public final class Survey {
                   id,
                   question,
                   OpenEndedQuestion.Type.LONG,
-                  parseOpenEndedQuestion(headers, sheetsQuestion),
-                  ""));
+                  parseOpenEndedQuestion(headers, sheetsQuestion)));
           break;
         case SheetsValuesResponse.QUESTION_TYPE_SHORT:
           questions.add(
@@ -88,8 +87,7 @@ public final class Survey {
                   id,
                   question,
                   OpenEndedQuestion.Type.SHORT,
-                  parseOpenEndedQuestion(headers, sheetsQuestion),
-                  ""));
+                  parseOpenEndedQuestion(headers, sheetsQuestion)));
           break;
         default:
           Log.d("UserSneak", "Unsupported question type: " + type);

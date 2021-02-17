@@ -2,6 +2,7 @@
 <resources>
 
   <style name="Theme.AppCompat.Translucent" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <item name="android:windowTranslucentStatus">true</item>
     <item name="android:background">@android:color/transparent</item>
     <item name="android:windowNoTitle">true</item>
     <item name="android:windowBackground">@android:color/transparent</item>

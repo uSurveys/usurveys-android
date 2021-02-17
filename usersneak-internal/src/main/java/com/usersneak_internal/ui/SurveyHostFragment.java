@@ -9,14 +9,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import com.google.common.base.Optional;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.usersneak_api.UserSneakQuestion.Type;
 import com.usersneak_internal.R;
 import com.usersneak_internal.models.QuestionInternal;
 import com.usersneak_internal.models.Survey;
 import com.usersneak_internal.remote.sheets.repo.SheetsModule;
+import com.usersneak_internal.remote.usersneak.repo.UserSneakModule;
 import com.usersneak_internal.utils.uiutils.FragmentUtils;
 import com.usersneak_internal.utils.uiutils.FragmentUtils.FragmentUtilListener;
+import java.util.HashMap;
 
 public final class SurveyHostFragment extends Fragment implements FragmentUtilListener {
 
@@ -89,13 +93,16 @@ public final class SurveyHostFragment extends Fragment implements FragmentUtilLi
     private final FragmentManager childFragmentManager;
     private final Survey survey;
 
-    private int currentQuestion = 0;
+    private final HashMap<String, String> questionAnswerMap = new HashMap<>();
+
+    private String currentQuestionId = "";
 
     public SurveyQuestionsParent(
         SurveyHostParent surveyHostParent, FragmentManager childFragmentManager, Survey survey) {
       this.surveyHostParent = surveyHostParent;
       this.childFragmentManager = childFragmentManager;
       this.survey = survey;
+      currentQuestionId = survey.questions.get(0).getId();
       setQuestion(survey.questions.get(0));
     }
 
@@ -106,19 +113,22 @@ public final class SurveyHostFragment extends Fragment implements FragmentUtilLi
 
     @Override
     public void submitAnswer(String answer) {
-      if (++currentQuestion >= survey.questions.size()) {
-        // TODO(allen): Show a thank you?
+      questionAnswerMap.put(currentQuestionId, answer);
+      Optional<String> nextQuestion = findQuestions(currentQuestionId).getNextQuestion(answer);
+      if (!nextQuestion.isPresent()) {
+        UserSneakModule.getInstance()
+            .recordSurveyResults(survey, ImmutableMap.copyOf(questionAnswerMap));
         surveyHostParent.dismissSurvey();
         return;
       }
-
-      setQuestion(survey.questions.get(currentQuestion));
+      setQuestion(findQuestions(nextQuestion.get()));
     }
 
     private void setQuestion(QuestionInternal question) {
+      currentQuestionId = question.getId();
       Bundle args = new Bundle();
       args.putString(EVENT_NAME_KEY, survey.surveyName);
-      args.putString(QUESTION_ID_KEY, question.getId());
+      args.putString(QUESTION_ID_KEY, currentQuestionId);
       childFragmentManager
           .beginTransaction()
           .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
@@ -138,6 +148,10 @@ public final class SurveyHostFragment extends Fragment implements FragmentUtilLi
           return ShortAnswerQuestionFragment.class;
       }
       throw new IllegalArgumentException("Unhandled type: " + type);
+    }
+
+    private QuestionInternal findQuestions(String id) {
+      return survey.questions.stream().filter(q -> q.getId().equals(id)).findFirst().get();
     }
   }
 

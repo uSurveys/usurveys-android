@@ -3,8 +3,6 @@ package com.usersneak_internal.remote.usersneak.repo;
 import androidx.lifecycle.LiveData;
 import com.google.common.collect.ImmutableMap;
 import com.usersneak_api.SurveyResultsHandler;
-import com.usersneak_internal.models.Answer;
-import com.usersneak_internal.models.QuestionInternal;
 import com.usersneak_internal.models.Survey;
 import com.usersneak_internal.utils.network.RequestStatus;
 
@@ -22,7 +20,7 @@ public interface UserSneakRepo {
 
   void setSurveyResultHandler(SurveyResultsHandler handler);
 
-  void recordSurveyResults(Survey survey, ImmutableMap<QuestionInternal, Answer> answers);
+  void recordSurveyResults(Survey survey, ImmutableMap<String, String> questionAnswerMap);
 
   /** Returns true if the client's API key is valid and in good standing. */
   LiveData<RequestStatus<Boolean>> apiEnabled();

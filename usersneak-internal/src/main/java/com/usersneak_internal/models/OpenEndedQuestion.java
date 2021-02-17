@@ -15,15 +15,13 @@ public final class OpenEndedQuestion extends QuestionInternal {
   private final String questionText;
   private final Type type;
   private final OpenEndedAnswer openEndedAnswer;
-  private final String answer;
 
   public OpenEndedQuestion(
-      String id, String questionText, Type type, OpenEndedAnswer openEndedAnswer, String answer) {
+      String id, String questionText, Type type, OpenEndedAnswer openEndedAnswer) {
     this.id = id;
     this.questionText = questionText;
     this.type = type;
     this.openEndedAnswer = openEndedAnswer;
-    this.answer = answer;
   }
 
   @Override
@@ -51,11 +49,6 @@ public final class OpenEndedQuestion extends QuestionInternal {
   @Override
   public List<String> getAnswers() {
     return null;
-  }
-
-  @Override
-  public String getAnswer() {
-    return answer;
   }
 
   @Override

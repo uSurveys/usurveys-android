@@ -4,15 +4,16 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.usersneak_api.SurveyResults;
 import com.usersneak_api.SurveyResultsHandler;
-import com.usersneak_internal.models.Answer;
-import com.usersneak_internal.models.QuestionInternal;
+import com.usersneak_api.UserSneakQuestion;
 import com.usersneak_internal.models.Survey;
 import com.usersneak_internal.remote.usersneak.cache.UserSneakConfigCache;
 import com.usersneak_internal.utils.RequestStatusLiveData;
 import com.usersneak_internal.utils.network.RequestStatus;
 import com.usersneak_internal.utils.network.RequestStatus.Status;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 final class UserSneakRepoImpl implements UserSneakRepo {
 
@@ -55,17 +56,21 @@ final class UserSneakRepoImpl implements UserSneakRepo {
   }
 
   @Override
-  public void recordSurveyResults(Survey survey, ImmutableMap<QuestionInternal, Answer> answers) {
-    if (handler != null) {
-      // TODO(allen): send the survey results
-      handler.handleSurveyResults(null);
-    } else {
-      Log.e("UserSneak", "Survey results dropped on the ground D:");
-    }
-
+  public void recordSurveyResults(Survey survey, ImmutableMap<String, String> questionAnswerMap) {
     UserSneakConfigCache.get().recordSurveyTimestamp(System.currentTimeMillis());
     // TODO(allen): upload the survey results to our server?
     // TODO(allen): notify our survey that a survey was taken (to increment count)
+
+    if (handler == null) {
+      Log.e("UserSneak", "Survey results dropped on the ground D:");
+      return;
+    }
+
+    handler.handleSurveyResults(
+        new SurveyResults(
+            survey.surveyName,
+            survey.questions.stream().map(q -> (UserSneakQuestion) q).collect(Collectors.toList()),
+            questionAnswerMap));
   }
 
   @Override

@@ -18,15 +18,12 @@ public final class MultipleChoiceQuestion extends QuestionInternal {
   private final String questionText;
   private final Type type;
   private final List<McAnswer> answers;
-  private final String answer;
 
-  public MultipleChoiceQuestion(
-      String id, String questionText, Type type, List<McAnswer> answers, String answer) {
+  public MultipleChoiceQuestion(String id, String questionText, Type type, List<McAnswer> answers) {
     this.id = id;
     this.questionText = questionText;
     this.type = type;
     this.answers = answers;
-    this.answer = answer;
   }
 
   @Override
@@ -50,11 +47,6 @@ public final class MultipleChoiceQuestion extends QuestionInternal {
   @Override
   public List<String> getAnswers() {
     return answers.stream().map(McAnswer::getText).collect(Collectors.toList());
-  }
-
-  @Override
-  public String getAnswer() {
-    return answer;
   }
 
   @Override
