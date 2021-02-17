@@ -40,6 +40,7 @@ dependencies {
     api rootProject.ext.androidCore.fragment
     api rootProject.ext.androidCore.appCompat
     api rootProject.ext.androidCore.material
+    api rootProject.ext.androidCore.encyrpted_prefs
 
     api rootProject.ext.google.guava
     api rootProject.ext.google.gson
@@ -64,6 +65,6 @@ dependencies {
     testImplementation rootProject.ext.testing.androidxRules
     testImplementation rootProject.ext.testing.robolectric
     testImplementation rootProject.ext.testing.espresso
-//    androidTestImplementation rootProject.ext.testing.androidxJunit
-//    testImplementation rootProject.ext.testing.espresso
+    // androidTestImplementation rootProject.ext.testing.androidxJunit
+    // testImplementation rootProject.ext.testing.espresso
 }

@@ -23,14 +23,14 @@ public final class DemoApplication extends Application {
 
     // Sign up at usersneak.com, navigate to settings to find your API key.
     UserSneak.get()
-        .configureUserSneakApiKey(this, USER_SNEAK_API_KEY)
+        .configureUserSneakApiKey(USER_SNEAK_API_KEY)
         // See docs.usersneak.com/sheets to learn how to setup your sheet.
-        .configureSheetsApi(this, SHEET_ID)
+        .configureSheetsApi(SHEET_ID)
         // Set the minimum amount of time that must pass before the user is shown another survey.
         // See docs.userneak.com/resurvey to learn more.
         .configureResurveyWindowMillis(TimeUnit.SECONDS.toMillis(5))
         // Handle survey results to capture with your own logging framework.
         // See docs.usersneak.com/logging?os=android to learn more.
-        .configureSurveyResultsHandler(this, new DemoSurveyResultsHandler());
+        .configureSurveyResultsHandler(new DemoSurveyResultsHandler());
   }
 }

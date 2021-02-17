@@ -31,7 +31,7 @@ ext {
             constraint_layout  : "androidx.constraintlayout:constraintlayout:2.0.4",
             navigation_fragment: "androidx.navigation:navigation-fragment:2.3.3",
             navigation_ui      : "androidx.navigation:navigation-ui:2.3.3",
-
+            encyrpted_prefs    : "androidx.security:security-crypto:1.1.0-alpha03",
     ]
 
     retrofit = [
@@ -63,7 +63,7 @@ ext {
     ]
 
     //    testImplementation
-    //    debugImplementation 'androidx.fragment:fragment-testing:1.2.5'
+    //    debugImplementation "androidx.fragment:fragment-testing:1.2.5"
     //    debugImplementation "androidx.work:work-testing:$work_version"
 }
 

@@ -1,6 +1,5 @@
 package com.usersneak_internal;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.RemoteException;
 import android.util.Log;
@@ -15,6 +14,7 @@ import com.usersneak_api.UserSneakApi;
 import com.usersneak_api.UserSneakApi.StatusCallback.SurveyStatus;
 import com.usersneak_internal.models.Survey;
 import com.usersneak_internal.remote.sheets.repo.SheetsModule;
+import com.usersneak_internal.remote.usersneak.repo.UserSneakModule;
 import com.usersneak_internal.ui.UserSneakSurveyActivity;
 import com.usersneak_internal.utils.network.RequestStatus;
 import com.usersneak_internal.utils.network.RequestStatus.Status;
@@ -22,25 +22,25 @@ import com.usersneak_internal.utils.network.RequestStatus.Status;
 public final class UserSneakImpl implements UserSneakApi {
 
   @Override
-  public UserSneakApi configureUserSneakApiKey(Context context, String apiKey) {
+  public UserSneakApi configureUserSneakApiKey(String apiKey) {
     return this;
   }
 
   @Override
-  public UserSneakApi configureSheetsApi(Context context, String sheetId) {
-    // TODO(allen): store this sheet ID and use it !
+  public UserSneakApi configureSheetsApi(String sheetId) {
+    UserSneakModule.getInstance().setSheetId(sheetId);
     return this;
   }
 
   @Override
-  public UserSneakApi configureSurveyResultsHandler(Context context, SurveyResultsHandler handler) {
-    // TODO(allen): store this handler and deliver the survey results back to the client
+  public UserSneakApi configureSurveyResultsHandler(SurveyResultsHandler handler) {
+    UserSneakModule.getInstance().setSurveyResultHandler(handler);
     return this;
   }
 
   @Override
   public UserSneakApi configureResurveyWindowMillis(long millis) {
-    // TODO(allen): store this value and use it !
+    UserSneakModule.getInstance().setResurveyWindow(millis);
     return this;
   }
 

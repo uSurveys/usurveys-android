@@ -1,6 +1,5 @@
 package com.usersneak;
 
-import android.content.Context;
 import android.content.Intent;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.fragment.app.FragmentActivity;
@@ -11,17 +10,17 @@ import java.util.ArrayList;
 public final class UserSneakStub implements UserSneakApi {
 
   @Override
-  public UserSneakApi configureUserSneakApiKey(Context context, String apiKey) {
+  public UserSneakApi configureUserSneakApiKey(String apiKey) {
     return this;
   }
 
   @Override
-  public UserSneakApi configureSheetsApi(Context context, String sheetId) {
+  public UserSneakApi configureSheetsApi(String sheetId) {
     return this;
   }
 
   @Override
-  public UserSneakApi configureSurveyResultsHandler(Context context, SurveyResultsHandler handler) {
+  public UserSneakApi configureSurveyResultsHandler(SurveyResultsHandler handler) {
     return this;
   }
 

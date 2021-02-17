@@ -12,6 +12,8 @@ import com.usersneak_internal.remote.sheets.api.SheetsServiceGenerator;
 import com.usersneak_internal.remote.sheets.api.responses.GetSheetResponse;
 import com.usersneak_internal.remote.sheets.api.responses.GetSheetResponse.ServerSheet;
 import com.usersneak_internal.remote.sheets.api.responses.SheetsValuesResponse;
+import com.usersneak_internal.remote.usersneak.repo.UserSneakModule;
+import com.usersneak_internal.remote.usersneak.repo.UserSneakRepo;
 import com.usersneak_internal.utils.RequestStatusLiveData;
 import com.usersneak_internal.utils.network.RequestStatus;
 import com.usersneak_internal.utils.network.RequestStatus.Status;
@@ -23,12 +25,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public final class SheetsRepoImpl implements SheetsRepo {
+final class SheetsRepoImpl implements SheetsRepo {
 
-  private static final String API_KEY = "AIzaSyB8m8PcBiTMmD35_oitVodKiEQlT7MUUvo";
-  private static final String SHEET_ID = "1CSF6Vyxi31x0IeceG4h41OmfM0qcnL9aa3tV3TvYwE8";
-  // private static final String SHEET_ID = "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms";
+  private static final String SHEETS_API_KEY = "AIzaSyB8m8PcBiTMmD35_oitVodKiEQlT7MUUvo";
+  private static final String DEBUG_SHEET_ID = "1CSF6Vyxi31x0IeceG4h41OmfM0qcnL9aa3tV3TvYwE8";
 
+  private final UserSneakRepo userSneakRepo = UserSneakModule.getInstance();
   private final RequestStatusLiveData<ImmutableList<String>> surveyTitles =
       new RequestStatusLiveData<>();
   private final HashMap<String, RequestStatusLiveData<Optional<Survey>>> surveys = new HashMap<>();
@@ -41,7 +43,7 @@ public final class SheetsRepoImpl implements SheetsRepo {
 
     surveyTitles.setValue(RequestStatus.pending());
     SheetsServiceGenerator.get()
-        .getSheets(SHEET_ID, API_KEY)
+        .getSheets(userSneakRepo.getSheetId(), SHEETS_API_KEY)
         .enqueue(
             new Callback<GetSheetResponse>() {
               @Override
@@ -144,10 +146,9 @@ public final class SheetsRepoImpl implements SheetsRepo {
     resumeSurveyInit(event, liveData);
   }
 
-  private static void resumeSurveyInit(
-      String event, RequestStatusLiveData<Optional<Survey>> liveData) {
+  private void resumeSurveyInit(String event, RequestStatusLiveData<Optional<Survey>> liveData) {
     SheetsServiceGenerator.get()
-        .getValues(SHEET_ID, String.format("'%s'!A1:Z50", event), API_KEY)
+        .getValues(userSneakRepo.getSheetId(), String.format("'%s'!A1:Z50", event), SHEETS_API_KEY)
         .enqueue(
             new Callback<SheetsValuesResponse>() {
               @Override

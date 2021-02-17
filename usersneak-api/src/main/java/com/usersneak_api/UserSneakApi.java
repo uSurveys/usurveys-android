@@ -1,7 +1,6 @@
 package com.usersneak_api;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.MainThread;
@@ -32,17 +31,17 @@ import java.util.List;
 public interface UserSneakApi {
 
   /** Configure UserSneak API key. */
-  UserSneakApi configureUserSneakApiKey(Context context, String apiKey);
+  UserSneakApi configureUserSneakApiKey(String apiKey);
 
   /**
    * Configure UserSneak to read from GoogleSheets.
    *
    * @param sheetId Google Sheet ID. See docs.usersneak.com/sheets
    */
-  UserSneakApi configureSheetsApi(Context context, String sheetId);
+  UserSneakApi configureSheetsApi(String sheetId);
 
   /** Configure callback to handle survey results. See <link/> for an example. */
-  UserSneakApi configureSurveyResultsHandler(Context context, SurveyResultsHandler handler);
+  UserSneakApi configureSurveyResultsHandler(SurveyResultsHandler handler);
 
   /** Configure the amount of milliseconds UserSneak should wait before resurveying the user. */
   UserSneakApi configureResurveyWindowMillis(long millis);
