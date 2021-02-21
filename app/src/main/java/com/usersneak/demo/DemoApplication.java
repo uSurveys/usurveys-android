@@ -25,7 +25,7 @@ public final class DemoApplication extends Application {
     UserSneak.get()
         .configureUserSneakApiKey(USER_SNEAK_API_KEY)
         // See docs.usersneak.com/sheets to learn how to setup your sheet.
-        .configureSheetsApi(SHEET_ID)
+        .configureSheetsId(SHEET_ID)
         // Set the minimum amount of time that must pass before the user is shown another survey.
         // See docs.userneak.com/resurvey to learn more.
         .configureResurveyWindowMillis(TimeUnit.SECONDS.toMillis(5))

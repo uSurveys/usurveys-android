@@ -14,7 +14,7 @@ import java.util.List;
  * <p>Setup instructions:
  *
  * <ol>
- *   <li>Call {@link #configureSheetsApi} from {@link Application#onCreate()}.
+ *   <li>Call {@link #configureSheetsId} from {@link Application#onCreate()}.
  *   <li>Call {@link #configureResurveyWindowMillis} from {@link Application#onCreate()}.
  *   <li>Call {@link #configureSurveyResultsHandler} where convenient.
  * </ol>
@@ -38,7 +38,7 @@ public interface UserSneakApi {
    *
    * @param sheetId Google Sheet ID. See docs.usersneak.com/sheets
    */
-  UserSneakApi configureSheetsApi(String sheetId);
+  UserSneakApi configureSheetsId(String sheetId);
 
   /** Configure callback to handle survey results. See <link/> for an example. */
   UserSneakApi configureSurveyResultsHandler(SurveyResultsHandler handler);
@@ -91,16 +91,5 @@ public interface UserSneakApi {
   interface AllEventsCallback {
 
     void handleEventsReady(@NonNull List<String> events);
-  }
-
-  /**
-   * Used to know when the user has completed the survey in case the survey should be part of the
-   * app flow.
-   */
-  interface SurveyFinishedCallback {
-
-    /** Called when the survey is complete. */
-    @MainThread
-    void onSurveyFinished();
   }
 }

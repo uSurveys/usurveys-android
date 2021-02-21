@@ -27,7 +27,7 @@ public final class UserSneakImpl implements UserSneakApi {
   }
 
   @Override
-  public UserSneakApi configureSheetsApi(String sheetId) {
+  public UserSneakApi configureSheetsId(String sheetId) {
     UserSneakModule.getInstance().setSheetId(sheetId);
     return this;
   }

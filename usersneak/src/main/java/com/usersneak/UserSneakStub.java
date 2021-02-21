@@ -15,7 +15,7 @@ public final class UserSneakStub implements UserSneakApi {
   }
 
   @Override
-  public UserSneakApi configureSheetsApi(String sheetId) {
+  public UserSneakApi configureSheetsId(String sheetId) {
     return this;
   }
 
