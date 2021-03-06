@@ -1,14 +1,15 @@
 plugins {
     id "com.android.application"
+    id "kotlin-android"
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     defaultConfig {
         applicationId "com.usersneak.demo"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
@@ -40,6 +41,8 @@ dependencies {
     api rootProject.ext.google.guava
 
     // Demo app dependencies
+    api rootProject.ext.kotlin.core
+    api rootProject.ext.kotlin.jetbrains
     implementation "androidx.work:work-runtime:2.5.0"
     implementation "androidx.work:work-gcm:2.5.0"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0"
