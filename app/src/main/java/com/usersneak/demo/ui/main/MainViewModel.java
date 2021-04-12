@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MainViewModel extends ViewModel {
+public final class MainViewModel extends ViewModel {
 
   private final MutableLiveData<List<String>> events = new MutableLiveData<>(new ArrayList<>());
 
