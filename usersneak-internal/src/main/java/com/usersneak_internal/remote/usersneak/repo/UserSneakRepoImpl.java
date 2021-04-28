@@ -1,17 +1,27 @@
 package com.usersneak_internal.remote.usersneak.repo;
 
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.usersneak_api.SurveyResults;
 import com.usersneak_api.SurveyResultsHandler;
 import com.usersneak_api.UserSneakQuestion;
 import com.usersneak_internal.models.Survey;
+import com.usersneak_internal.remote.usersneak.api.UserSneakServiceGenerator;
+import com.usersneak_internal.remote.usersneak.api.models.PostSurveyResultBody;
 import com.usersneak_internal.remote.usersneak.cache.UserSneakConfigCache;
 import com.usersneak_internal.utils.RequestStatusLiveData;
+import com.usersneak_internal.utils.network.PostResponse;
 import com.usersneak_internal.utils.network.RequestStatus;
 import com.usersneak_internal.utils.network.RequestStatus.Status;
+
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
@@ -51,6 +61,11 @@ final class UserSneakRepoImpl implements UserSneakRepo {
   }
 
   @Override
+  public void setCustomerId(String id) {
+    UserSneakConfigCache.get().setCustomerId(id);
+  }
+
+  @Override
   public void setSurveyResultHandler(SurveyResultsHandler handler) {
     this.handler = handler;
   }
@@ -58,8 +73,32 @@ final class UserSneakRepoImpl implements UserSneakRepo {
   @Override
   public void recordSurveyResults(Survey survey, ImmutableMap<String, String> questionAnswerMap) {
     UserSneakConfigCache.get().recordSurveyTimestamp(System.currentTimeMillis());
-    // TODO(allen): upload the survey results to our server?
-    // TODO(allen): notify our survey that a survey was taken (to increment count)
+    UserSneakServiceGenerator.get().postSurveyResults(
+        getApiKey(),
+        new PostSurveyResultBody(
+            survey.surveyName,
+            getSheetId(),
+            UserSneakConfigCache.get().getUserId(),
+            UserSneakConfigCache.get().getCustomerId()))
+        .enqueue(new Callback<PostResponse>() {
+          @Override
+          public void onResponse(
+              @NonNull Call<PostResponse> call, @NonNull Response<PostResponse> response) {
+            if (!response.isSuccessful()) {
+              scheduleRetry();
+            }
+          }
+
+          @Override
+          public void onFailure(
+              @NonNull Call<PostResponse> call, @NonNull Throwable throwable) {
+            scheduleRetry();
+          }
+
+          private void scheduleRetry() {
+            // TODO(allen): cache the response and attempt to upload it later
+          }
+        });
 
     if (handler == null) {
       Log.e("UserSneak", "Survey results dropped on the ground D:");

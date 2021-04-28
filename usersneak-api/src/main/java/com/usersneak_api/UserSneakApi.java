@@ -40,11 +40,14 @@ public interface UserSneakApi {
    */
   UserSneakApi configureSheetsId(String sheetId);
 
-  /** Configure callback to handle survey results. See <link/> for an example. */
-  UserSneakApi configureSurveyResultsHandler(SurveyResultsHandler handler);
-
   /** Configure the amount of milliseconds UserSneak should wait before resurveying the user. */
   UserSneakApi configureResurveyWindowMillis(long millis);
+
+  /** Optional: Configure callback to handle survey results. See <link/> for an example. */
+  UserSneakApi configureSurveyResultsHandler(SurveyResultsHandler handler);
+
+  /** Optional: Attach your own unique identifier the each customer's survey responses. */
+  UserSneakApi configureCustomerId(String id);
 
   /**
    * Ask UserSneak to preemptively track an event and prep a survey.
@@ -65,8 +68,9 @@ public interface UserSneakApi {
   void logout(boolean clearResurveyWindow);
 
   /**
-   * Ask UserSneak for list of all available events. This is usually used for testing
-   * configurations.
+   * Ask UserSneak for list of all available events.
+   *
+   * This is usually used for testing configurations.
    */
   void getAllEvents(AllEventsCallback callback);
 

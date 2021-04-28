@@ -87,6 +87,10 @@ public final class SurveyHostFragment extends Fragment implements FragmentUtilLi
     return null;
   }
 
+  public void submitSurveyResults() {
+    surveyQuestionsParent.submitSurveyResults();
+  }
+
   private static class SurveyQuestionsParent implements SurveyQuestionParent {
 
     private final SurveyHostParent surveyHostParent;
@@ -116,8 +120,7 @@ public final class SurveyHostFragment extends Fragment implements FragmentUtilLi
       questionAnswerMap.put(currentQuestionId, answer);
       Optional<String> nextQuestion = findQuestions(currentQuestionId).getNextQuestion(answer);
       if (!nextQuestion.isPresent()) {
-        UserSneakModule.getInstance()
-            .recordSurveyResults(survey, ImmutableMap.copyOf(questionAnswerMap));
+        submitSurveyResults();
         surveyHostParent.dismissSurvey();
         return;
       }
@@ -152,6 +155,11 @@ public final class SurveyHostFragment extends Fragment implements FragmentUtilLi
 
     private QuestionInternal findQuestions(String id) {
       return survey.questions.stream().filter(q -> q.getId().equals(id)).findFirst().get();
+    }
+
+    public void submitSurveyResults() {
+      UserSneakModule.getInstance()
+          .recordSurveyResults(survey, ImmutableMap.copyOf(questionAnswerMap));
     }
   }
 

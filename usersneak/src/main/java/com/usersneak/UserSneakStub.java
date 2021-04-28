@@ -25,6 +25,11 @@ public final class UserSneakStub implements UserSneakApi {
   }
 
   @Override
+  public UserSneakApi configureCustomerId(String id) {
+    return this;
+  }
+
+  @Override
   public UserSneakApi configureResurveyWindowMillis(long millis) {
     return this;
   }

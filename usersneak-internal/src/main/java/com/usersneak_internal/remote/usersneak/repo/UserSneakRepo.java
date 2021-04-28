@@ -22,6 +22,8 @@ public interface UserSneakRepo {
 
   void recordSurveyResults(Survey survey, ImmutableMap<String, String> questionAnswerMap);
 
+  void setCustomerId(String id);
+
   /** Returns true if the client's API key is valid and in good standing. */
   LiveData<RequestStatus<Boolean>> apiEnabled();
 

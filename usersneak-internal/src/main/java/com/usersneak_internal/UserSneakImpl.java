@@ -23,6 +23,7 @@ public final class UserSneakImpl implements UserSneakApi {
 
   @Override
   public UserSneakApi configureUserSneakApiKey(String apiKey) {
+    UserSneakModule.getInstance().setApiKey(apiKey);
     return this;
   }
 
@@ -35,6 +36,12 @@ public final class UserSneakImpl implements UserSneakApi {
   @Override
   public UserSneakApi configureSurveyResultsHandler(SurveyResultsHandler handler) {
     UserSneakModule.getInstance().setSurveyResultHandler(handler);
+    return this;
+  }
+
+  @Override
+  public UserSneakApi configureCustomerId(String id) {
+    UserSneakModule.getInstance().setCustomerId(id);
     return this;
   }
 

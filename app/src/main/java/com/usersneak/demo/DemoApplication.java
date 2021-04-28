@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 public final class DemoApplication extends Application {
 
-  private static final String USER_SNEAK_API_KEY = "user_sneak_api_key";
+  private static final String USER_SNEAK_API_KEY = "07162f6f-4ac1-4a38-8131-94b5cda5b95f";
   private static final String SHEET_ID = "1CSF6Vyxi31x0IeceG4h41OmfM0qcnL9aa3tV3TvYwE8";
 
   private static DemoApplication application;

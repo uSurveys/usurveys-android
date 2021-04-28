@@ -4,15 +4,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.common.collect.ImmutableMap;
 import com.usersneak_internal.R;
+import com.usersneak_internal.remote.usersneak.repo.UserSneakModule;
 import com.usersneak_internal.ui.SurveyHostFragment.SurveyHostParent;
 import com.usersneak_internal.utils.uiutils.FragmentUtils.FragmentUtilListener;
 
-/** Root activity presenting the survey as a bottom sheet. */
+/**
+ * Root activity presenting the survey as a bottom sheet.
+ */
 public final class UserSneakSurveyActivity extends AppCompatActivity
     implements FragmentUtilListener {
 
@@ -40,7 +46,14 @@ public final class UserSneakSurveyActivity extends AppCompatActivity
         BottomSheetBehavior.from(findViewById(R.id.bottom_sheet_root));
     surveyHostParent = new MainSurveyHostParent(bottomSheetBehavior);
 
-    findViewById(R.id.bottomsheet_dim).setOnClickListener(view -> surveyHostParent.dismissSurvey());
+    findViewById(R.id.bottomsheet_dim).setOnClickListener(view -> {
+      // Attempt to log the results we have so far
+      SurveyHostFragment fragment = (SurveyHostFragment) getSupportFragmentManager().findFragmentByTag("SURVEY");
+      if (fragment != null) {
+        fragment.submitSurveyResults();
+      }
+      surveyHostParent.dismissSurvey();
+    });
 
     // Expanded by default
     bottomSheetBehavior.setDraggable(false);
@@ -58,7 +71,8 @@ public final class UserSneakSurveyActivity extends AppCompatActivity
           }
 
           @Override
-          public void onSlide(@NonNull View bottomSheet, float slideOffset) {}
+          public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+          }
         });
   }
 
