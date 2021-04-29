@@ -1,5 +1,6 @@
 package com.usersneak_internal.remote.usersneak.repo;
 
+import android.os.RemoteException;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -8,6 +9,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.usersneak_api.SurveyResults;
@@ -15,15 +17,19 @@ import com.usersneak_api.SurveyResultsHandler;
 import com.usersneak_api.UserSneakQuestion;
 import com.usersneak_internal.models.Survey;
 import com.usersneak_internal.remote.usersneak.api.UserSneakServiceGenerator;
+import com.usersneak_internal.remote.usersneak.api.models.GetSurveyResponse;
 import com.usersneak_internal.remote.usersneak.api.models.PostSurveyResultBody;
 import com.usersneak_internal.remote.usersneak.cache.UserSneakConfigCache;
 import com.usersneak_internal.utils.RequestStatusLiveData;
 import com.usersneak_internal.utils.network.PostResponse;
 import com.usersneak_internal.utils.network.RequestStatus;
 import com.usersneak_internal.utils.network.RequestStatus.Status;
+import com.usersneak_internal.utils.network.SimpleCallback;
 
 import java.util.HashMap;
 import java.util.stream.Collectors;
+
+import static java.util.Objects.requireNonNull;
 
 final class UserSneakRepoImpl implements UserSneakRepo {
 
@@ -32,6 +38,7 @@ final class UserSneakRepoImpl implements UserSneakRepo {
   private final RequestStatusLiveData<Boolean> apiEnabled = new RequestStatusLiveData<>();
   private final RequestStatusLiveData<Boolean> resurveyWindowExpired =
       new RequestStatusLiveData<>();
+  private final HashMap<String, RequestStatusLiveData<Optional<Survey>>> surveys = new HashMap<>();
 
   private SurveyResultsHandler handler = null;
 
@@ -149,6 +156,55 @@ final class UserSneakRepoImpl implements UserSneakRepo {
       initSurveyCount(eventName);
     }
     return surveyCountMap.get(eventName);
+  }
+
+  @Override
+  public LiveData<RequestStatus<Optional<Survey>>> getSurvey(String event) {
+    preWarmSurvey(event);
+    return surveys.get(event);
+  }
+
+  @Override
+  public void preWarmSurvey(String event) {
+    if (!surveys.containsKey(event)) {
+      surveys.put(event, new RequestStatusLiveData<>());
+    }
+    RequestStatusLiveData<Optional<Survey>> livedata = requireNonNull(surveys.get(event));
+    if (livedata.getValue().status == Status.PENDING
+        || livedata.getValue().status == Status.SUCCESS) {
+      return;
+    }
+
+    livedata.setValue(RequestStatus.pending());
+    UserSneakServiceGenerator.get()
+        .getSurvey(getApiKey(), getSheetId(), event)
+        .enqueue(new SimpleCallback<GetSurveyResponse>(livedata) {
+          @Override
+          public void onResponse(
+              @NonNull Call<GetSurveyResponse> call,
+              @NonNull Response<GetSurveyResponse> response) {
+            if (!response.isSuccessful()
+                || response.body() == null
+                || !Strings.isNullOrEmpty(response.body().errorMessage)) {
+              String message = response.body() == null ? "unknown" : response.body().errorMessage;
+              livedata.setValue(
+                  RequestStatus.error(
+                      new RemoteException("Failed to fetch " + event + " survey: " + message)));
+              return;
+            }
+            Survey survey = Survey.from(response.body());
+            switch (survey.status) {
+              case NO_SURVEY:
+                livedata.setValue(RequestStatus.success(Optional.absent()));
+              case AVAILABLE:
+                livedata.setValue(RequestStatus.success(Optional.of(survey)));
+                break;
+              case SURVEY_MALFORMED:
+                livedata.setValue(RequestStatus.error(new IllegalArgumentException()));
+                break;
+            }
+          }
+        });
   }
 
   private void initSurveyCount(String eventName) {

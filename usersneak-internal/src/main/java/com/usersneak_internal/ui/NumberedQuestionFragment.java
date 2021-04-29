@@ -14,6 +14,7 @@ import com.google.common.collect.ImmutableMap;
 import com.usersneak_internal.R;
 import com.usersneak_internal.models.QuestionInternal;
 import com.usersneak_internal.remote.sheets.repo.SheetsModule;
+import com.usersneak_internal.remote.usersneak.repo.UserSneakModule;
 import com.usersneak_internal.utils.uiutils.FragmentUtils;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public final class NumberedQuestionFragment extends Fragment {
     String event = requireArguments().getString(SurveyHostFragment.EVENT_NAME_KEY);
     String questionId = requireArguments().getString(SurveyQuestionParent.QUESTION_ID_KEY);
     QuestionInternal question =
-        SheetsModule.getInstance().getSurvey(event).getValue().getResult().get().questions.stream()
+        UserSneakModule.getInstance().getSurvey(event).getValue().getResult().get().questions.stream()
             .filter(q -> q.getId().equals(questionId))
             .findFirst()
             .get();

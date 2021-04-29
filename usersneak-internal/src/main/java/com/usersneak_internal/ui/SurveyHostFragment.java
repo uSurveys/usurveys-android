@@ -47,7 +47,7 @@ public final class SurveyHostFragment extends Fragment implements FragmentUtilLi
       return;
     }
 
-    SheetsModule.getInstance()
+    UserSneakModule.getInstance()
         .getSurvey(eventName)
         .observe(
             getViewLifecycleOwner(),

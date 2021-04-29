@@ -8,7 +8,17 @@ public final class OpenEndedQuestion extends QuestionInternal {
 
   public enum Type {
     SHORT,
-    LONG,
+    LONG;
+
+    public static Type from(String serverValue) {
+      switch (serverValue) {
+        case "SHORT_ANSWER":
+          return SHORT;
+        case "LONG_ANSWER":
+          return LONG;
+      }
+      throw new IllegalArgumentException("None exists: " + serverValue);
+    }
   }
 
   private final String id;

@@ -59,7 +59,7 @@ public final class UserSneakImpl implements UserSneakApi {
   @Override
   public void track(String event, StatusCallback statusCallback) {
     LiveData<RequestStatus<Optional<Survey>>> liveData =
-        SheetsModule.getInstance().getSurvey(event);
+        UserSneakModule.getInstance().getSurvey(event);
     liveData.observeForever(
         new Observer<RequestStatus<Optional<Survey>>>() {
           @Override

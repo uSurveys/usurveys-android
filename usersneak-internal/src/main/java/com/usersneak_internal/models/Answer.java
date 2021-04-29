@@ -19,7 +19,7 @@ public abstract class Answer {
 
   public Answer(Logic logic, String nextQuestion) {
     this.logic = logic;
-    this.nextQuestion = Optional.of(nextQuestion);
+    this.nextQuestion = Optional.fromNullable(nextQuestion);
   }
 
   public final Logic getLogic() {

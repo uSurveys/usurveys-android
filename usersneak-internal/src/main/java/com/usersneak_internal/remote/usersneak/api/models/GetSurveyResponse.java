@@ -12,10 +12,16 @@ public class GetSurveyResponse {
     public String text;
   }
 
+  public static class ServerOpenEndedAnswer {
+    public String logic;
+    public String nextQuestion;
+  }
+
   public static class ServerQuestion {
     public String id;
     public String type;
     public List<ServerAnswer> answers;
+    public ServerOpenEndedAnswer openEndedAnswer;
     public String question;
   }
 

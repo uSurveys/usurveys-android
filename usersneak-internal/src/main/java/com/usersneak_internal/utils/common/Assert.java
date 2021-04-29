@@ -1,6 +1,8 @@
 package com.usersneak_internal.utils.common;
 
 import android.os.Looper;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 /**

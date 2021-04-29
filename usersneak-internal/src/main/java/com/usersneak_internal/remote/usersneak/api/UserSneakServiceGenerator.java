@@ -19,6 +19,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class UserSneakServiceGenerator {
 
   private static final String BASE_URL = "https://protected-reef-30340.herokuapp.com/";
+  //private static final String BASE_URL = "https://api.musurveys.com/";
 
   private static final OkHttpClient okHttpClient =
       new OkHttpClient.Builder()

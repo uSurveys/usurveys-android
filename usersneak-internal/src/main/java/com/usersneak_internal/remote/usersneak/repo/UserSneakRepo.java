@@ -1,6 +1,8 @@
 package com.usersneak_internal.remote.usersneak.repo;
 
 import androidx.lifecycle.LiveData;
+
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import com.usersneak_api.SurveyResultsHandler;
 import com.usersneak_internal.models.Survey;
@@ -35,4 +37,8 @@ public interface UserSneakRepo {
 
   /** Returns the total number of survey responses that have been recorded so far. */
   LiveData<RequestStatus<Integer>> getSurveyResponseCount(String eventName);
+
+  void preWarmSurvey(String event);
+
+  LiveData<RequestStatus<Optional<Survey>>> getSurvey(String event);
 }

@@ -10,14 +10,15 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface UserSneakApi {
 
   @GET("/api/surveys")
   Call<GetSurveyResponse> getSurvey(
       @Header("api-key") String apiKey,
-      @Path("sheetId") String sheetId,
-      @Path("eventName") String eventName);
+      @Query("sheetId") String sheetId,
+      @Query("eventName") String eventName);
 
   @POST("/api/surveys/results")
   Call<PostResponse> postSurveyResults(
