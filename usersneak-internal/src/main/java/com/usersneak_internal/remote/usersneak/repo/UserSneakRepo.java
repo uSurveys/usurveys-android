@@ -41,4 +41,8 @@ public interface UserSneakRepo {
   void preWarmSurvey(String event);
 
   LiveData<RequestStatus<Optional<Survey>>> getSurvey(String event);
+
+  void logout();
+
+  void logError(String stack);
 }

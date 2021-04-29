@@ -49,7 +49,7 @@ public final class UserSneakStub implements UserSneakApi {
   }
 
   @Override
-  public void logout(boolean clearResurveyWindow) {}
+  public void logout() {}
 
   @Override
   public void getAllEvents(AllEventsCallback callback) {

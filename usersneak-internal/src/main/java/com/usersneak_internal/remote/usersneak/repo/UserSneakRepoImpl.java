@@ -21,6 +21,7 @@ import com.usersneak_internal.remote.usersneak.api.models.GetSurveyResponse;
 import com.usersneak_internal.remote.usersneak.api.models.PostSurveyResultBody;
 import com.usersneak_internal.remote.usersneak.cache.UserSneakConfigCache;
 import com.usersneak_internal.utils.RequestStatusLiveData;
+import com.usersneak_internal.utils.common.NeverCrashUtil;
 import com.usersneak_internal.utils.network.PostResponse;
 import com.usersneak_internal.utils.network.RequestStatus;
 import com.usersneak_internal.utils.network.RequestStatus.Status;
@@ -91,15 +92,21 @@ final class UserSneakRepoImpl implements UserSneakRepo {
           @Override
           public void onResponse(
               @NonNull Call<PostResponse> call, @NonNull Response<PostResponse> response) {
-            if (!response.isSuccessful()) {
-              scheduleRetry();
-            }
+            NeverCrashUtil.safeCall(() -> {
+              if (!response.isSuccessful()) {
+                scheduleRetry();
+              }
+              return null;
+            });
           }
 
           @Override
           public void onFailure(
               @NonNull Call<PostResponse> call, @NonNull Throwable throwable) {
-            scheduleRetry();
+            NeverCrashUtil.safeCall(() -> {
+              scheduleRetry();
+              return null;
+            });
           }
 
           private void scheduleRetry() {
@@ -165,6 +172,16 @@ final class UserSneakRepoImpl implements UserSneakRepo {
   }
 
   @Override
+  public void logout() {
+    // TODO(allen): clear everything (encrypted storage, memory caches, more?).
+  }
+
+  @Override
+  public void logError(String stack) {
+
+  }
+
+  @Override
   public void preWarmSurvey(String event) {
     if (!surveys.containsKey(event)) {
       surveys.put(event, new RequestStatusLiveData<>());
@@ -180,7 +197,7 @@ final class UserSneakRepoImpl implements UserSneakRepo {
         .getSurvey(getApiKey(), getSheetId(), event)
         .enqueue(new SimpleCallback<GetSurveyResponse>(livedata) {
           @Override
-          public void onResponse(
+          public void onSafeResponse(
               @NonNull Call<GetSurveyResponse> call,
               @NonNull Response<GetSurveyResponse> response) {
             if (!response.isSuccessful()

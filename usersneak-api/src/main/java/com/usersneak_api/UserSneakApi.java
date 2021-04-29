@@ -65,7 +65,7 @@ public interface UserSneakApi {
   void showSurvey(FragmentActivity activity, String event, ActivityResultLauncher<Intent> launcher);
 
   /** Clear any locally stored settings. */
-  void logout(boolean clearResurveyWindow);
+  void logout();
 
   /**
    * Ask UserSneak for list of all available events.
