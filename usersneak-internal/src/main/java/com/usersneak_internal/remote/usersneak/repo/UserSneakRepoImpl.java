@@ -19,6 +19,7 @@ import com.usersneak_internal.models.Survey;
 import com.usersneak_internal.remote.usersneak.api.UserSneakServiceGenerator;
 import com.usersneak_internal.remote.usersneak.api.models.GetSurveyResponse;
 import com.usersneak_internal.remote.usersneak.api.models.PostSurveyResultBody;
+import com.usersneak_internal.remote.usersneak.api.models.PostSurveyResultBody.SurveyResponse;
 import com.usersneak_internal.remote.usersneak.cache.UserSneakConfigCache;
 import com.usersneak_internal.utils.RequestStatusLiveData;
 import com.usersneak_internal.utils.common.NeverCrashUtil;
@@ -31,6 +32,7 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toList;
 
 final class UserSneakRepoImpl implements UserSneakRepo {
 
@@ -87,7 +89,11 @@ final class UserSneakRepoImpl implements UserSneakRepo {
             survey.surveyName,
             getSheetId(),
             UserSneakConfigCache.get().getUserId(),
-            UserSneakConfigCache.get().getCustomerId()))
+            UserSneakConfigCache.get().getCustomerId(),
+            survey.questions.stream()
+                .map(q ->
+                    new SurveyResponse(q.getId(), questionAnswerMap.getOrDefault(q.getId(), "")))
+                .collect(toList())))
         .enqueue(new Callback<PostResponse>() {
           @Override
           public void onResponse(
@@ -122,7 +128,7 @@ final class UserSneakRepoImpl implements UserSneakRepo {
     handler.handleSurveyResults(
         new SurveyResults(
             survey.surveyName,
-            survey.questions.stream().map(q -> (UserSneakQuestion) q).collect(Collectors.toList()),
+            survey.questions.stream().map(q -> (UserSneakQuestion) q).collect(toList()),
             questionAnswerMap));
   }
 
