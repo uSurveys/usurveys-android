@@ -1,6 +1,6 @@
-include ':musurveys-andoird-sdk-testing'
-include ':musurveys-andoird-sdk-api'
-include ':musurveys-andoird-sdk-internal'
-include ':musurveys-andoird-sdk'
+include ':musurveys-android-sdk-testing'
+include ':musurveys-android-sdk-api'
+include ':musurveys-android-sdk-internal'
+include ':musurveys-android-sdk'
 include ':app'
-rootProject.name = "UserSneak Demo"
+rootProject.name = "MuSurveysDemo"

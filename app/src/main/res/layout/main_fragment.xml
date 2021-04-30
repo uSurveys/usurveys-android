@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="UserSneak Demo"
+        app:title="MuSurveys Demo"
         app:titleTextColor="@color/white" />
 
     <androidx.appcompat.widget.AppCompatTextView

@@ -29,7 +29,7 @@ android {
 }
 
 dependencies {
-    implementation project(':musurveys-andoird-sdk')
+    implementation project(':musurveys-android-sdk')
     // Library dependencies
     api rootProject.ext.androidCore.fragment
     api rootProject.ext.androidCore.appCompat

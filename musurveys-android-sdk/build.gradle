@@ -1,0 +1,45 @@
+plugins {
+    id "com.android.library"
+}
+
+android {
+    compileSdkVersion 30
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    // Use `api` here to forward the MuSurveys interfaces to MuSurveys clients.
+    api project(':musurveys-android-sdk-api')
+    api rootProject.ext.androidCore.appCompat
+
+    // Use `implementation` here to hide implementation details.
+    implementation project(':musurveys-android-sdk-internal')
+}
+
+ext {
+    PUBLISH_GROUP_ID = 'com.musurveys'
+    PUBLISH_VERSION = '0.1.0'
+    PUBLISH_ARTIFACT_ID = 'musurveys-android-sdk'
+}
+
+apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.usersneak.demo.ui.main.MainFragment"
+        android:name="com.musurveys.demo.ui.main.MainFragment"
         android:label="main_fragment"
         tools:layout="@layout/main_fragment" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.usersneak.demo.ui.main.DetailFragment"
+        android:name="com.musurveys.demo.ui.main.DetailFragment"
         android:label="DetailFragment"
         tools:layout="@layout/fragment_detail">
 

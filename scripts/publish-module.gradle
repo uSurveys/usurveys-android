@@ -38,7 +38,7 @@ afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
-                // Values stored in usersneak/build.gradle
+                // Values stored in musurveys-android-sdk/build.gradle
                 groupId PUBLISH_GROUP_ID
                 artifactId PUBLISH_ARTIFACT_ID
                 version PUBLISH_VERSION
