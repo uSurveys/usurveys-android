@@ -27,7 +27,7 @@ import retrofit2.Response;
 
 final class SheetsRepoImpl implements SheetsRepo {
 
-  private static final String SHEETS_API_KEY = "AIzaSyB8m8PcBiTMmD35_oitVodKiEQlT7MUUvo";
+  private static final String SHEETS_API_KEY = "<your-sheets-api-key-here>";
   private static final String DEBUG_SHEET_ID = "1CSF6Vyxi31x0IeceG4h41OmfM0qcnL9aa3tV3TvYwE8";
 
   private final MuSurveysRepo muSurveysRepo = MuSurveysModule.getInstance();
