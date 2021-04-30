@@ -68,3 +68,10 @@ dependencies {
     // androidTestImplementation rootProject.ext.testing.androidxJunit
     // testImplementation rootProject.ext.testing.espresso
 }
+
+ext {
+    PUBLISH_GROUP_ID = 'com.musurveys'
+    PUBLISH_VERSION = '0.4.0'
+    PUBLISH_ARTIFACT_ID = 'musurveys-android-sdk-internal'
+}
+apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"
