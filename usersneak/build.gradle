@@ -1,6 +1,5 @@
 plugins {
     id "com.android.library"
-    id 'maven-publish'
 }
 
 android {
@@ -37,25 +36,10 @@ dependencies {
     implementation project(":usersneak-internal")
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            // Creates a Maven publication called "release".
-            release(MavenPublication) {
-                from components.release
-                groupId = 'com.github.uSurveys'
-                artifactId = 'usurveys-android'
-                version = '0.3.0'
-            }
-
-//            paidRelease(MavenPublication) {
-//                // The following applies a component to this publication
-//                // which results in publishing an app bundle.
-//                from components.paidRelease_aab
-//                groupId = 'com.github.uSurveys'
-//                artifactId = 'usurveys-android'
-//                version = '0.3.0'
-//            }
-        }
-    }
+ext {
+    PUBLISH_GROUP_ID = 'com.musurveys'
+    PUBLISH_VERSION = '0.1.0'
+    PUBLISH_ARTIFACT_ID = 'musurveys-android-sdk'
 }
+
+apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"

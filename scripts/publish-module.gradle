@@ -1,0 +1,93 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+// https://github.com/Kotlin/dokka
+// apply plugin: 'org.jetbrains.dokka'
+
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    if (project.plugins.findPlugin("com.android.library")) {
+        from android.sourceSets.main.java.srcDirs
+        from android.sourceSets.main.kotlin.srcDirs
+    } else {
+        from sourceSets.main.java.srcDirs
+        from sourceSets.main.kotlin.srcDirs
+    }
+}
+
+//tasks.withType(dokkaHtmlPartial.getClass()).configureEach {
+//    pluginsMapConfiguration.set(
+//            ["org.jetbrains.dokka.base.DokkaBase": """{ "separateInheritedMembers": true}"""]
+//    )
+//}
+//
+//task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
+//    archiveClassifier.set('javadoc')
+//    from dokkaJavadoc.outputDirectory
+//}
+
+artifacts {
+    archives androidSourcesJar
+    // Used for dokka
+    // archives javadocJar
+}
+
+group = PUBLISH_GROUP_ID
+version = PUBLISH_VERSION
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                // Values stored in usersneak/build.gradle
+                groupId PUBLISH_GROUP_ID
+                artifactId PUBLISH_ARTIFACT_ID
+                version PUBLISH_VERSION
+
+                // Two artifacts, the `aar` (or `jar`) and the sources
+                if (project.plugins.findPlugin("com.android.library")) {
+                    from components.release
+                } else {
+                    artifact("$buildDir/libs/${project.getName()}-${version}.jar")
+                }
+
+                artifact androidSourcesJar
+                // Used for dokka
+                // artifact javadocJar
+
+                // Mostly self-explanatory metadata
+                pom {
+                    name = PUBLISH_ARTIFACT_ID
+                    description = 'µSurveys official Android SDK'
+                    url = 'https://github.com/uSurveys/usurveys-android'
+                    licenses {
+                        license {
+                            name = 'MIT License'
+                            url = 'https://github.com/uSurveys/usurveys-android/blob/master/LICENSE'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'calderwoodra'
+                            name = 'Allen Calderwood'
+                            email = 'allen@musurveys.com'
+                        }
+                    }
+
+                    scm {
+                        connection = 'scm:git:github.com/uSurveys/usurveys-android.git'
+                        developerConnection = 'scm:git:ssh://github.com/uSurveys/usurveys-android.git'
+                        url = 'https://github.com/uSurveys/usurveys-android/tree/master'
+                    }
+                }
+            }
+        }
+    }
+}
+
+ext["signing.keyId"] = rootProject.ext["signing.keyId"]
+ext["signing.password"] = rootProject.ext["signing.password"]
+ext["signing.secretKeyRingFile"] = rootProject.ext["signing.secretKeyRingFile"]
+
+signing {
+    sign publishing.publications
+}

@@ -5,7 +5,7 @@ buildscript {
     }
     ext.kotlin_version = '1.4.30'
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.0-alpha14'
+        classpath 'com.android.tools.build:gradle:7.0.0-alpha15'
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.3"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
@@ -15,7 +15,11 @@ plugins {
     // ./gradlew goJF   -- Format all Java files
     // ./gradlew verFJF -- Validate format of all files (run by sentry)
     id "com.github.sherter.google-java-format" version "0.9"
+
+    // Used for publishing our Android library
+    id "io.github.gradle-nexus.publish-plugin" version "1.1.0"
 }
+apply from: "${rootDir}/scripts/publish-root.gradle"
 
 allprojects {
     repositories {
