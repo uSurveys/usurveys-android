@@ -1,6 +1,6 @@
-include ':usersneak-testing'
-include ':usersneak-api'
-include ':usersneak-internal'
-include ':usersneak'
+include ':musurveys-andoird-sdk-testing'
+include ':musurveys-andoird-sdk-api'
+include ':musurveys-andoird-sdk-internal'
+include ':musurveys-andoird-sdk'
 include ':app'
 rootProject.name = "UserSneak Demo"

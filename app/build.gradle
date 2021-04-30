@@ -7,7 +7,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "com.usersneak.demo"
+        applicationId 'com.musurveys'
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
@@ -29,7 +29,7 @@ android {
 }
 
 dependencies {
-    implementation project(":usersneak")
+    implementation project(':musurveys-andoird-sdk')
     // Library dependencies
     api rootProject.ext.androidCore.fragment
     api rootProject.ext.androidCore.appCompat

@@ -215,6 +215,11 @@ final class UserSneakRepoImpl implements UserSneakRepo {
                       new RemoteException("Failed to fetch " + event + " survey: " + message)));
               return;
             }
+            if (Boolean.TRUE) {
+              livedata.setValue(RequestStatus.success(Optional.absent()));
+              return;
+            }
+
             Survey survey = Survey.from(response.body());
             switch (survey.status) {
               case NO_SURVEY:

@@ -29,11 +29,11 @@ android {
 
 dependencies {
     // Use `api` here to forward the UserSneak interfaces to UserSneak clients.
-    api project(":usersneak-api")
+    api project(':musurveys-andoird-sdk-api')
     api rootProject.ext.androidCore.appCompat
 
     // Use `implementation` here to hide implementation details.
-    implementation project(":usersneak-internal")
+    implementation project(':musurveys-andoird-sdk-internal')
 }
 
 ext {

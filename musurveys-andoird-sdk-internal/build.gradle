@@ -36,7 +36,7 @@ android {
 }
 
 dependencies {
-    api project(':usersneak-api')
+    api project(':musurveys-andoird-sdk-api')
     api rootProject.ext.androidCore.fragment
     api rootProject.ext.androidCore.appCompat
     api rootProject.ext.androidCore.material
@@ -55,7 +55,7 @@ dependencies {
     api rootProject.ext.retrofit.logging_interceptor
 
     // Testing
-    testImplementation project(':usersneak-testing')
+    testImplementation project(':musurveys-andoird-sdk-testing')
     testImplementation rootProject.ext.testing.truth
     testImplementation rootProject.ext.testing.mockito
     testImplementation rootProject.ext.testing.junit
