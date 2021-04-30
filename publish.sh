@@ -35,7 +35,7 @@ if [ -z "$version" ];
 fi
 
 # Create our local aars and jars
-./gradlew publishToMavenLocal
+./gradlew publishToMavenLocal || exit
 
 # Create a destination for all our compiled artifacts
 mkdir "$HOME/Desktop/public" &> /dev/null \

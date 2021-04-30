@@ -37,8 +37,8 @@ dependencies {
 }
 
 ext {
-    PUBLISH_GROUP_ID = 'com.musurveys'
-    PUBLISH_VERSION = '0.4.0'
+    PUBLISH_GROUP_ID = rootProject.ext.publishing.groupId
+    PUBLISH_VERSION = rootProject.ext.publishing.version
     PUBLISH_ARTIFACT_ID = 'musurveys-android-sdk'
 }
 apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"

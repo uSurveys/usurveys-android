@@ -3,6 +3,7 @@ package com.musurveys_internal.ui;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
@@ -33,7 +34,9 @@ public final class SurveyHostFragment extends Fragment implements FragmentUtilLi
       @NonNull LayoutInflater inflater,
       @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.fragment_survey_host, container, false);
+    View view = inflater.inflate(R.layout.fragment_survey_host, container, false);
+    view.setOnTouchListener((v, event) -> true);
+    return view;
   }
 
   @Override

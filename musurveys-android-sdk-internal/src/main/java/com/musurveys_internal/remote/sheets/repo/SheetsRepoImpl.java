@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.musurveys_internal.BuildConfig;
 import com.musurveys_internal.models.Survey;
 import com.musurveys_internal.remote.sheets.api.SheetsServiceGenerator;
 import com.musurveys_internal.remote.sheets.api.responses.GetSheetResponse;
@@ -15,6 +16,7 @@ import com.musurveys_internal.remote.sheets.api.responses.SheetsValuesResponse;
 import com.musurveys_internal.remote.musurveys.repo.MuSurveysModule;
 import com.musurveys_internal.remote.musurveys.repo.MuSurveysRepo;
 import com.musurveys_internal.utils.RequestStatusLiveData;
+import com.musurveys_internal.utils.common.Assert;
 import com.musurveys_internal.utils.network.RequestStatus;
 import com.musurveys_internal.utils.network.RequestStatus.Status;
 import java.util.HashMap;
@@ -43,7 +45,7 @@ final class SheetsRepoImpl implements SheetsRepo {
 
     surveyTitles.setValue(RequestStatus.pending());
     SheetsServiceGenerator.get()
-        .getSheets(muSurveysRepo.getSheetId(), SHEETS_API_KEY)
+        .getSheets(muSurveysRepo.getSheetId(), Objects.requireNonNull(BuildConfig.SHEETS_API_KEY))
         .enqueue(
             new Callback<GetSheetResponse>() {
               @Override
@@ -169,6 +171,10 @@ final class SheetsRepoImpl implements SheetsRepo {
                   liveData.setValue(
                       RequestStatus.error(
                           new RemoteException("Failed to fetch sheet: Sheet is missing or empty")));
+                  return;
+                }
+                if (Boolean.TRUE) {
+                  liveData.setValue(RequestStatus.success(Optional.absent()));
                   return;
                 }
 

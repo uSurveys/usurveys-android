@@ -2,6 +2,10 @@ plugins {
     id 'com.android.library'
 }
 
+// Be sure to add sheetsApiKey to local.properties file
+Properties properties = new Properties()
+properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
 android {
     compileSdkVersion 30
 
@@ -19,6 +23,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "SHEETS_API_KEY", properties.getProperty("sheetsApiKey", ""))
+        }
+        debug {
+            minifyEnabled false
+            buildConfigField("String", "SHEETS_API_KEY", properties.getProperty("sheetsApiKey", ""))
         }
     }
     compileOptions {
@@ -70,8 +79,8 @@ dependencies {
 }
 
 ext {
-    PUBLISH_GROUP_ID = 'com.musurveys'
-    PUBLISH_VERSION = '0.4.0'
+    PUBLISH_GROUP_ID = rootProject.ext.publishing.groupId
+    PUBLISH_VERSION = rootProject.ext.publishing.version
     PUBLISH_ARTIFACT_ID = 'musurveys-android-sdk-internal'
 }
 apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"

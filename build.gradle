@@ -73,6 +73,11 @@ ext {
             robolectric    : "org.robolectric:robolectric:4.4-beta-1",
     ]
 
+    publishing = [
+            groupId : "com.musurveys",
+            version : "0.4.0",
+    ]
+
     //    testImplementation
     //    debugImplementation "androidx.fragment:fragment-testing:1.2.5"
     //    debugImplementation "androidx.work:work-testing:$work_version"
