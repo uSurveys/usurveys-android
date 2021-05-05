@@ -1,5 +1,8 @@
 # µSurveys Android Client
 
+µSurveys is an application for showing micro-suveys embedded in your own application.
+You can learn more and setup an account at https://musurveys.com
+
 ## Get Started
 
 Add the dependency to gradle:
