@@ -20,7 +20,7 @@ Configurations in your Application class:
 @Override
 public void onCreate() {
     super.onCreate();
-    // Sign up at usersneak.com, navigate to settings to find your API key.
+    // Sign up at musurveys.com, to get an API key.
     UserSneak.get()
         .configureUserSneakApiKey(USER_SNEAK_API_KEY)
         // See docs.usersneak.com to learn how to setup your sheet.
