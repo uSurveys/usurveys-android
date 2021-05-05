@@ -20,8 +20,6 @@ Configurations in your Application class:
 @Override
 public void onCreate() {
     super.onCreate();
-    application = this;
-
     // Sign up at usersneak.com, navigate to settings to find your API key.
     UserSneak.get()
         .configureUserSneakApiKey(USER_SNEAK_API_KEY)
