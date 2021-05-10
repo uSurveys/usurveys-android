@@ -14,9 +14,10 @@ import java.util.List;
  * <p>Setup instructions:
  *
  * <ol>
+ *   <li>Call {@link #configureMuSurveysApiKey} from {@link Application#onCreate()}.
  *   <li>Call {@link #configureSheetsId} from {@link Application#onCreate()}.
- *   <li>Call {@link #configureResurveyWindowMillis} from {@link Application#onCreate()}.
  *   <li>Call {@link #configureSurveyResultsHandler} where convenient.
+ *   <li>Call {@link #configureCustomerId} where convenient.
  * </ol>
  *
  * <p>To show surveys:
@@ -39,9 +40,6 @@ public interface MuSurveysApi {
    * @param sheetId Google Sheet ID. See docs.musurveys.com/sheets
    */
   MuSurveysApi configureSheetsId(String sheetId);
-
-  /** Configure the amount of milliseconds MuSurveys should wait before resurveying the user. */
-  MuSurveysApi configureResurveyWindowMillis(long millis);
 
   /** Optional: Configure callback to handle survey results. See <link/> for an example. */
   MuSurveysApi configureSurveyResultsHandler(SurveyResultsHandler handler);

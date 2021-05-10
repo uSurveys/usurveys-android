@@ -9,7 +9,7 @@
         android:id="@+id/mainFragment"
         android:name="com.musurveys.demo.ui.main.MainFragment"
         android:label="main_fragment"
-        tools:layout="@layout/main_fragment">
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_detailFragment"
             app:destination="@id/detailFragment"
@@ -17,6 +17,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_mainFragment_to_setupFragment"
+            app:destination="@id/setupFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -29,4 +32,10 @@
             app:argType="string"
             app:nullable="false" />
     </fragment>
+
+    <fragment
+        android:id="@+id/setupFragment"
+        android:name="com.musurveys.demo.ui.main.SetupFragment"
+        android:label="SetupFragment"
+        tools:layout="@layout/fragment_setup" />
 </navigation>

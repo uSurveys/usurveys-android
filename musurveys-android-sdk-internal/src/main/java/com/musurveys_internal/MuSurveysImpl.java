@@ -59,15 +59,6 @@ public final class MuSurveysImpl implements MuSurveysApi {
   }
 
   @Override
-  public MuSurveysApi configureResurveyWindowMillis(long millis) {
-    safeCall(() -> {
-      MuSurveysModule.getInstance().setResurveyWindow(millis);
-      return null;
-    });
-    return this;
-  }
-
-  @Override
   public void preTrack(String event) {
     safeCall(() -> {
       MuSurveysModule.getInstance().preWarmSurvey(event);

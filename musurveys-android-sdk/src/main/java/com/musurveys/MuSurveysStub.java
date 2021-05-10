@@ -30,11 +30,6 @@ public final class MuSurveysStub implements MuSurveysApi {
   }
 
   @Override
-  public MuSurveysApi configureResurveyWindowMillis(long millis) {
-    return this;
-  }
-
-  @Override
   public void preTrack(String event) {}
 
   @Override
