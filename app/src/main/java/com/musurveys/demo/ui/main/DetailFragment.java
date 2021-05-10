@@ -23,7 +23,7 @@ public final class DetailFragment extends Fragment {
       registerForActivityResult(
           new StartActivityForResult(),
           result -> {
-            Toast.makeText(requireContext(), "Survey completed", Toast.LENGTH_SHORT).show();
+            // Handle completed survey results
             Navigation.findNavController(requireView()).popBackStack();
           });
 
@@ -47,6 +47,7 @@ public final class DetailFragment extends Fragment {
 
     root.findViewById(R.id.btn_pre_track)
         .setOnClickListener(view -> MuSurveys.get().preTrack(eventName));
+    root.findViewById(R.id.btn_reset).setOnClickListener(view -> MuSurveys.get().logout());
 
     root.findViewById(R.id.btn_track)
         .setOnClickListener(

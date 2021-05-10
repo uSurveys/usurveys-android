@@ -26,18 +26,6 @@ public interface MuSurveysRepo {
 
   void setCustomerId(String id);
 
-  /** Returns true if the client's API key is valid and in good standing. */
-  LiveData<RequestStatus<Boolean>> apiEnabled();
-
-  /**
-   * Returns true if the user is outside the resurvey window (i.e. they're eligible to see another
-   * survey).
-   */
-  LiveData<RequestStatus<Boolean>> resurveyWindowExpired();
-
-  /** Returns the total number of survey responses that have been recorded so far. */
-  LiveData<RequestStatus<Integer>> getSurveyResponseCount(String eventName);
-
   void preWarmSurvey(String event);
 
   LiveData<RequestStatus<Optional<Survey>>> getSurvey(String event);

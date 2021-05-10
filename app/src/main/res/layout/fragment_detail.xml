@@ -17,6 +17,16 @@
         app:titleTextColor="@color/white"
         tools:title="Foo Event" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_full_dark"
+        android:padding="40dp"
+        app:layout_constraintBottom_toTopOf="@id/btn_pre_track"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_pre_track"
         style="@style/TextAppearance.MaterialComponents.Button"
@@ -36,9 +46,22 @@
         android:layout_height="wrap_content"
         android:text="Track Event"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_reset"
         app:layout_constraintEnd_toEndOf="@id/btn_pre_track"
         app:layout_constraintStart_toStartOf="@id/btn_pre_track"
         app:layout_constraintTop_toBottomOf="@id/btn_pre_track"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_reset"
+        style="@style/TextAppearance.MaterialComponents.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="reset"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/btn_pre_track"
+        app:layout_constraintStart_toStartOf="@id/btn_pre_track"
+        app:layout_constraintTop_toBottomOf="@id/btn_track"
         app:layout_constraintVertical_chainStyle="packed" />
 </androidx.constraintlayout.widget.ConstraintLayout>

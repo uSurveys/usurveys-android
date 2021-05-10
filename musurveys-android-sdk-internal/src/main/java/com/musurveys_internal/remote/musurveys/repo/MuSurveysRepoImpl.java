@@ -35,14 +35,9 @@ import static java.util.stream.Collectors.toList;
 
 final class MuSurveysRepoImpl implements MuSurveysRepo {
 
-  private final HashMap<String, RequestStatusLiveData<Integer>> surveyCountMap = new HashMap<>();
-
-  private final RequestStatusLiveData<Boolean> apiEnabled = new RequestStatusLiveData<>();
-  private final RequestStatusLiveData<Boolean> resurveyWindowExpired =
-      new RequestStatusLiveData<>();
   private final HashMap<String, RequestStatusLiveData<Optional<Survey>>> surveys = new HashMap<>();
 
-  private SurveyResultsHandler handler = null;
+  private SurveyResultsHandler handler = results -> {};
 
   @Override
   public void setApiKey(String apiKey) {
@@ -82,6 +77,7 @@ final class MuSurveysRepoImpl implements MuSurveysRepo {
   @Override
   public void recordSurveyResults(Survey survey, ImmutableMap<String, String> questionAnswerMap) {
     MuSurveysConfigCache.get().recordSurveyTimestamp(System.currentTimeMillis());
+    surveys.get(survey.surveyName).setValue(RequestStatus.success(Optional.absent()));
     MuSurveysServiceGenerator.get().postSurveyResults(
         getApiKey(),
         new PostSurveyResultBody(
@@ -119,55 +115,11 @@ final class MuSurveysRepoImpl implements MuSurveysRepo {
           }
         });
 
-    if (handler == null) {
-      Log.e("MuSurveys", "Survey results dropped on the ground D:");
-      return;
-    }
-
     handler.handleSurveyResults(
         new SurveyResults(
             survey.surveyName,
             survey.questions.stream().map(q -> (MuSurveysQuestion) q).collect(toList()),
             questionAnswerMap));
-  }
-
-  @Override
-  public LiveData<RequestStatus<Boolean>> apiEnabled() {
-    if (apiEnabled.getValue().status == Status.INITIAL) {
-      refreshApiEnabled();
-    }
-    return apiEnabled;
-  }
-
-  private void refreshApiEnabled() {
-    // TODO(allen): talk to our backend to see if the user's key is actually enabled
-    String apiKey = MuSurveysConfigCache.get().getApiKey();
-    apiEnabled.setValue(RequestStatus.success(!Strings.isNullOrEmpty(apiKey)));
-  }
-
-  @Override
-  public LiveData<RequestStatus<Boolean>> resurveyWindowExpired() {
-    if (resurveyWindowExpired.getValue().status == Status.INITIAL) {
-      refreshResurveyWindow();
-    }
-    return resurveyWindowExpired;
-  }
-
-  private void refreshResurveyWindow() {
-    long resurveyWindow = MuSurveysConfigCache.get().getResurveyWindow();
-    long now = System.currentTimeMillis();
-
-    // TODO(allen): if lastSurvey == -1, ask the server
-    long lastSurvey = MuSurveysConfigCache.get().lastSurveyTimeMillis();
-    resurveyWindowExpired.setValue(RequestStatus.success(now - resurveyWindow > lastSurvey));
-  }
-
-  @Override
-  public LiveData<RequestStatus<Integer>> getSurveyResponseCount(String eventName) {
-    if (!surveyCountMap.containsKey(eventName)) {
-      initSurveyCount(eventName);
-    }
-    return surveyCountMap.get(eventName);
   }
 
   @Override
@@ -178,7 +130,8 @@ final class MuSurveysRepoImpl implements MuSurveysRepo {
 
   @Override
   public void logout() {
-    // TODO(allen): clear everything (encrypted storage, memory caches, more?).
+    MuSurveysConfigCache.get().logout();
+    surveys.clear();
   }
 
   @Override
@@ -199,7 +152,7 @@ final class MuSurveysRepoImpl implements MuSurveysRepo {
 
     livedata.setValue(RequestStatus.pending());
     MuSurveysServiceGenerator.get()
-        .getSurvey(getApiKey(), getSheetId(), event)
+        .getSurvey(getApiKey(), getSheetId(), event, MuSurveysConfigCache.get().getUserId())
         .enqueue(new SimpleCallback<GetSurveyResponse>(livedata) {
           @Override
           public void onSafeResponse(
@@ -228,13 +181,5 @@ final class MuSurveysRepoImpl implements MuSurveysRepo {
             }
           }
         });
-  }
-
-  private void initSurveyCount(String eventName) {
-    RequestStatusLiveData<Integer> count = new RequestStatusLiveData<>();
-    surveyCountMap.put(eventName, count);
-
-    // TODO(allen): Ask our server how many surveys have been recorded
-    count.setValue(RequestStatus.success(0));
   }
 }

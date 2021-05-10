@@ -17,7 +17,8 @@ public interface MuSurveysApi {
   Call<GetSurveyResponse> getSurvey(
       @Header("api-key") String apiKey,
       @Query("sheetId") String sheetId,
-      @Query("eventName") String eventName);
+      @Query("eventName") String eventName,
+      @Query("userId") String userId);
 
   @POST("/api/surveys/results")
   Call<PostResponse> postSurveyResults(

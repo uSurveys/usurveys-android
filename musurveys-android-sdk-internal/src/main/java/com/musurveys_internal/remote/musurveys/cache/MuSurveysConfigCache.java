@@ -31,6 +31,8 @@ public final class MuSurveysConfigCache {
   public static MuSurveysConfigCache get() {
     if (CONFIG_CACHE == null) {
       try {
+        // TODO(allen): create an in memory cache if there is failure here for some reason.
+        //  we cannot crash.
         CONFIG_CACHE = new MuSurveysConfigCache();
       } catch (GeneralSecurityException | IOException ignored) {
       }
@@ -123,5 +125,15 @@ public final class MuSurveysConfigCache {
       }
     }
     return userId;
+  }
+
+  public void logout() {
+    this.userId = "";
+    this.customerId = "";
+    prefs.edit()
+        .putString("user_sneak_user_id", "")
+        .putString("user_sneak_customer_id", "")
+        .putLong("user_sneak_last_survey_time", 0)
+        .apply();
   }
 }

@@ -6,10 +6,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
@@ -18,8 +22,10 @@ import com.musurveys_internal.R;
 import com.musurveys_internal.models.QuestionInternal;
 import com.musurveys_internal.models.Survey;
 import com.musurveys_internal.remote.musurveys.repo.MuSurveysModule;
+import com.musurveys_internal.utils.network.RequestStatus;
 import com.musurveys_internal.utils.uiutils.FragmentUtils;
 import com.musurveys_internal.utils.uiutils.FragmentUtils.FragmentUtilListener;
+
 import java.util.HashMap;
 
 public final class SurveyHostFragment extends Fragment implements FragmentUtilListener {
@@ -28,7 +34,6 @@ public final class SurveyHostFragment extends Fragment implements FragmentUtilLi
 
   private SurveyQuestionsParent surveyQuestionsParent;
 
-  @Nullable
   @Override
   public View onCreateView(
       @NonNull LayoutInflater inflater,
@@ -49,33 +54,41 @@ public final class SurveyHostFragment extends Fragment implements FragmentUtilLi
       return;
     }
 
-    MuSurveysModule.getInstance()
-        .getSurvey(eventName)
+    LiveData<RequestStatus<Optional<Survey>>> surveyLiveData =
+        MuSurveysModule.getInstance().getSurvey(eventName);
+    surveyLiveData
         .observe(
             getViewLifecycleOwner(),
-            survey -> {
-              switch (survey.status) {
-                case INITIAL:
-                case PENDING:
-                  // TODO(allen): Show loading
-                  break;
-                case SUCCESS:
-                  if (!survey.getResult().isPresent()
-                      || survey.getResult().get().questions.isEmpty()) {
-                    Log.e("MuSurveys", "Survey missing. Something went wrong");
-                    requireActivity().finish();
-                    return;
-                  }
-                  surveyQuestionsParent =
-                      new SurveyQuestionsParent(
-                          FragmentUtils.getParentUnsafe(this, SurveyHostParent.class),
-                          getChildFragmentManager(),
-                          survey.getResult().get());
-                  break;
-                case FAILED:
-                  Log.e("MuSurveys", "Something went wrong");
-                  requireActivity().finish();
-                  break;
+            new Observer<RequestStatus<Optional<Survey>>>() {
+              @Override
+              public void onChanged(RequestStatus<Optional<Survey>> survey) {
+                switch (survey.status) {
+                  case INITIAL:
+                  case PENDING:
+                    // TODO(allen): Show loading
+                    break;
+                  case SUCCESS:
+                    if (!survey.getResult().isPresent()
+                        || survey.getResult().get().questions.isEmpty()) {
+                      Log.e("MuSurveys", "Survey missing. Something went wrong");
+                      SurveyHostFragment.this.requireActivity().finish();
+                      return;
+                    }
+                    surveyQuestionsParent =
+                        new SurveyQuestionsParent(
+                            FragmentUtils.getParentUnsafe(SurveyHostFragment.this,
+                                SurveyHostParent.class),
+                            SurveyHostFragment.this.getChildFragmentManager(),
+                            survey.getResult().get());
+                    // Remove this as an observer so that the activity isn't killed when survey
+                    // results are submitted and the pending survey is removed from the cache
+                    surveyLiveData.removeObserver(this);
+                    break;
+                  case FAILED:
+                    Log.e("MuSurveys", "Something went wrong");
+                    SurveyHostFragment.this.requireActivity().finish();
+                    break;
+                }
               }
             });
   }

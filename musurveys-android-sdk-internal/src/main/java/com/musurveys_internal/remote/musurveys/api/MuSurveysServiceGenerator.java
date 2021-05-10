@@ -18,13 +18,13 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 /** Class for accessing retrofit and executing requests to MuSurveys backend. */
 public class MuSurveysServiceGenerator {
 
-  private static final String BASE_URL = "https://protected-reef-30340.herokuapp.com/";
-  //private static final String BASE_URL = "http://api.musurveys.com/";
+  //private static final String BASE_URL = "https://protected-reef-30340.herokuapp.com/";
+  private static final String BASE_URL = "https://api.musurveys.com/";
 
   private static final OkHttpClient okHttpClient =
       new OkHttpClient.Builder()
-          .connectTimeout(3, TimeUnit.SECONDS)
-          .readTimeout(3, TimeUnit.SECONDS)
+          .connectTimeout(10, TimeUnit.SECONDS)
+          .readTimeout(10, TimeUnit.SECONDS)
           .addInterceptor(buildLoggingInterceptor())
           .build();
 
