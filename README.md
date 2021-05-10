@@ -70,11 +70,7 @@ MuSurveys.get().track(eventName, callback);
 ### TODO
 P0:
 1. Implement some error and stacktrace reporting
-2. Upload the customer ID with every request
 
 P1:
-1. Add API Key and Sheet ID input support
-2. Upload demo app to the play store
-
-P2:
 1. Make the surveys look prettier
+2. Upload demo app to the play store
