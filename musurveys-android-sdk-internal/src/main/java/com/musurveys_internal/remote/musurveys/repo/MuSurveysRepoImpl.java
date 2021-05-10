@@ -15,12 +15,14 @@ import com.google.common.collect.ImmutableMap;
 import com.musurveys_api.SurveyResults;
 import com.musurveys_api.SurveyResultsHandler;
 import com.musurveys_api.MuSurveysQuestion;
+import com.musurveys_internal.BuildConfig;
 import com.musurveys_internal.models.Survey;
 import com.musurveys_internal.remote.musurveys.api.MuSurveysServiceGenerator;
 import com.musurveys_internal.remote.musurveys.api.models.GetSurveyResponse;
 import com.musurveys_internal.remote.musurveys.api.models.PostSurveyResultBody;
 import com.musurveys_internal.remote.musurveys.api.models.PostSurveyResultBody.SurveyResponse;
 import com.musurveys_internal.remote.musurveys.cache.MuSurveysConfigCache;
+import com.musurveys_internal.remote.sheets.repo.SheetsModule;
 import com.musurveys_internal.utils.RequestStatusLiveData;
 import com.musurveys_internal.utils.common.NeverCrashUtil;
 import com.musurveys_internal.utils.network.PostResponse;
@@ -52,16 +54,14 @@ final class MuSurveysRepoImpl implements MuSurveysRepo {
   @Override
   public void setSheetId(String id) {
     MuSurveysConfigCache.get().storeSheetId(id);
+    if (BuildConfig.DEBUG) {
+      SheetsModule.getInstance().preWarmEventNames();
+    }
   }
 
   @Override
   public String getSheetId() {
     return MuSurveysConfigCache.get().getSheetId();
-  }
-
-  @Override
-  public void setResurveyWindow(long millis) {
-    MuSurveysConfigCache.get().setResurveyWindow(millis);
   }
 
   @Override

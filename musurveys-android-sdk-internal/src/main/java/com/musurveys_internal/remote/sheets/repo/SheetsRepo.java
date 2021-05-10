@@ -12,7 +12,4 @@ public interface SheetsRepo {
 
   LiveData<RequestStatus<ImmutableList<String>>> getEventNames();
 
-  void preWarmSurvey(String event);
-
-  LiveData<RequestStatus<Optional<Survey>>> getSurvey(String event);
 }

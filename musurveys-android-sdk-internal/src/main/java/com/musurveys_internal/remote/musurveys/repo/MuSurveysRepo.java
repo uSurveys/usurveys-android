@@ -18,8 +18,6 @@ public interface MuSurveysRepo {
 
   String getSheetId();
 
-  void setResurveyWindow(long millis);
-
   void setSurveyResultHandler(SurveyResultsHandler handler);
 
   void recordSurveyResults(Survey survey, ImmutableMap<String, String> questionAnswerMap);

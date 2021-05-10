@@ -60,7 +60,6 @@ public final class Survey {
                 .collect(toList()));
       case LONG_ANSWER:
       case SHORT_ANSWER:
-        Log.i("###", serverQuestion.question);
         String nextQuestion =
             Strings.nullToEmpty(Strings.emptyToNull(serverQuestion.openEndedAnswer.nextQuestion));
         OpenEndedAnswer answer;
