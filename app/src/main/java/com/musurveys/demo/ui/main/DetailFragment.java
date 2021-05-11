@@ -52,24 +52,27 @@ public final class DetailFragment extends Fragment {
     root.findViewById(R.id.btn_track)
         .setOnClickListener(
             view -> {
-              StatusCallback callback =
-                  status -> {
-                    switch (status) {
-                      case NO_SURVEY:
-                        Toast.makeText(requireContext(), "No survey", Toast.LENGTH_SHORT).show();
-                        break;
 
-                      case AVAILABLE:
-                        MuSurveys.get().showSurvey(requireActivity(), eventName, muSurveysLauncher);
-                        break;
-
-                      case SURVEY_MALFORMED:
-                        Toast.makeText(requireContext(), "Malformed", Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                  };
-
-              MuSurveys.get().track(eventName, callback);
             });
+
+    MuSurveys.get().logout();
+    StatusCallback callback =
+        status -> {
+          switch (status) {
+            case NO_SURVEY:
+              Toast.makeText(requireContext(), "No survey", Toast.LENGTH_SHORT).show();
+              break;
+
+            case AVAILABLE:
+              MuSurveys.get().showSurvey(requireActivity(), eventName, muSurveysLauncher);
+              break;
+
+            case SURVEY_MALFORMED:
+              Toast.makeText(requireContext(), "Malformed", Toast.LENGTH_SHORT).show();
+              break;
+          }
+        };
+
+    MuSurveys.get().track(eventName, callback);
   }
 }

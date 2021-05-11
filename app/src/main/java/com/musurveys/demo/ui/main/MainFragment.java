@@ -1,10 +1,14 @@
 package com.musurveys.demo.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -13,10 +17,15 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.musurveys.MuSurveys;
 import com.musurveys.demo.EventNameAdapter;
 import com.musurveys.demo.R;
+import com.musurveys_api.MuSurveysApi;
 
 public final class MainFragment extends Fragment {
+
+  ActivityResultLauncher<Intent> muSurveysLauncher =
+      registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {});
 
   @Nullable
   @Override
@@ -45,5 +54,26 @@ public final class MainFragment extends Fragment {
 
     MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
     viewModel.getEventNames().observe(getViewLifecycleOwner(), adapter::setEvents);
+
+    String eventName = "Uber NPS";
+    MuSurveys.get().logout();
+    MuSurveysApi.StatusCallback callback =
+        status -> {
+          switch (status) {
+            case NO_SURVEY:
+              Toast.makeText(requireContext(), "No survey", Toast.LENGTH_SHORT).show();
+              break;
+
+            case AVAILABLE:
+              MuSurveys.get().showSurvey(requireActivity(), eventName, muSurveysLauncher);
+              break;
+
+            case SURVEY_MALFORMED:
+              Toast.makeText(requireContext(), "Malformed", Toast.LENGTH_SHORT).show();
+              break;
+          }
+        };
+
+    MuSurveys.get().track(eventName, callback);
   }
 }

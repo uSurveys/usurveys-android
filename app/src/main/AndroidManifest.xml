@@ -14,7 +14,7 @@
     android:theme="@style/Theme.MuSurveysDemo">
     <activity
       android:name="com.musurveys.demo.MainActivity"
-      android:theme="@style/Theme.AppCompat.NoActionBar">
+      android:theme="@style/Theme.AppCompat.NoActionBar.FullScreen">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 

@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
         app:titleTextColor="@color/white"
@@ -22,6 +23,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/logo_full_dark"
         android:padding="40dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btn_pre_track"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,6 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Pre-Track Event"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btn_track"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,6 +48,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Track Event"
+        android:visibility="gone"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@id/btn_reset"
         app:layout_constraintEnd_toEndOf="@id/btn_pre_track"
@@ -59,9 +63,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="reset"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/btn_pre_track"
         app:layout_constraintStart_toStartOf="@id/btn_pre_track"
         app:layout_constraintTop_toBottomOf="@id/btn_track"
         app:layout_constraintVertical_chainStyle="packed" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:src="@drawable/uber_screenshot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
